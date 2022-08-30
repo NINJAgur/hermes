@@ -1,0 +1,956 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard2 {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}  
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">דשבורד</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">בית</a></li>
+              <li class="breadcrumb-item active">דשבורד</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-microchip"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">CPU ממוצע</span>
+                <span class="info-box-number">
+                  63
+                  <small>%</small>
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-cog"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">RAM ממוצע</span>
+                <span class="info-box-number">
+                  35
+                  <small>%</small>
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-compact-disc"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Storage ממוצע</span>
+                <span class="info-box-number">
+                  71
+                  <small>%</small>
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-download"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">הלבנות שעוברות </span>
+                <span class="info-box-number">
+                  97
+                  <small>%</small>
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title">דו"ח שבועי</h5>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                      <i class="fas fa-wrench"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                      <a href="#" class="dropdown-item">Action</a>
+                      <a href="#" class="dropdown-item">Another action</a>
+                      <a href="#" class="dropdown-item">Something else here</a>
+                      <a class="dropdown-divider"></a>
+                      <a href="#" class="dropdown-item">Separated link</a>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div class="card">
+                  <div class="card-header border-0">
+                    <div class="d-flex justify-content-between">
+                      <h3 class="card-title">תקלות מצטברות</h3>
+                      <a href="javascript:void(0);">צפה בדו"ח מודפס</a>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <p class="d-flex flex-column">
+                        <span class="text-bold text-lg">24</span>
+                        <span>תקלות</span>
+                      </p>
+                      <p class="ml-auto d-flex flex-column text-right">
+                        <span class="text-danger">
+                          <i class="fas fa-arrow-up"></i> 17%
+                        </span>
+                        <span class="text-muted">ביחס לשבוע שעבר</span>
+                      </p>
+                    </div>
+                    <!-- /.d-flex -->
+    
+                    <div class="position-relative mb-4">
+                      <canvas id="visitors-chart" height="200"></canvas>
+                    </div>
+    
+                    <div class="d-flex flex-row justify-content-end">
+                      <span class="mr-2">
+                        <i class="fas fa-square text-primary"></i> שבוע נוכחי
+                      </span>
+    
+                      <span>
+                        <i class="fas fa-square text-gray"></i> שבוע קודם
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.row -->
+              </div>
+              <!-- ./card-body -->
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block border-right">
+                      <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                      <h5 class="description-header">24</h5>
+                      <span class="description-text">תקלות לעומת שבועיים קודמים</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block border-right">
+                      <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
+                      <h5 class="description-header">ש' 1.5</h5>
+                      <span class="description-text">זמן טיפול ממוצע</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block border-right">
+                      <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+                      <h5 class="description-header">128 +'ש</h5>
+                      <span class="description-text">שרידות רשתית</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block">
+                      <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                      <h5 class="description-header">שלילי</h5>
+                      <span class="description-text">ביצועי מערכות</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                </div>
+                <!-- /.row -->
+              </div>
+              <!-- /.card-footer -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+
+        <!-- Main row -->
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">תקלות לפי רשת</h3>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div class="row">
+                  <div class="card-body">
+                      <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    </div>
+                </div>
+                <!-- /.row -->
+              </div>
+              <!-- /.footer -->
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3>100<sup style="font-size: 20px">%</sup></h3>
+    
+                    <p>סודי</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">לפרטים <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>100<sup style="font-size: 20px">%</sup></h3>
+    
+                    <p>סודי ביותר</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">לפרטים <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <h3>100<sup style="font-size: 20px">%</sup></h3>
+    
+                    <p>אמ"ן</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">לפרטים <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>100<sup style="font-size: 20px">%</sup></h3>
+    
+                    <p>חיל הים</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">לפרטים <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+            </div>
+            <div class="row">
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                  <div class="inner">
+                    <h3>100<sup style="font-size: 20px">%</sup></h3>
+    
+                    <p>DEV חיל הים</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">לפרטים <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                  <div class="inner">
+                    <h3>100<sup style="font-size: 20px">%</sup></h3>
+    
+                    <p>שביל החלב</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">לפרטים <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                  <div class="inner">
+                    <h3>100<sup style="font-size: 20px">%</sup></h3>
+    
+                    <p>מיוחדים</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">לפרטים <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+              <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-danger">
+                  <div class="inner">
+                    <h3>100<sup style="font-size: 20px">%</sup></h3>
+    
+                    <p>חיל הים סודי ביותר</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                  </div>
+                  <a href="#" class="small-box-footer">לפרטים <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              <!-- ./col -->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="row">
+            <div class="col-md-4">
+              <!-- DIRECT CHAT -->
+              <div class="card direct-chat direct-chat-warning">
+                <div class="card-header">
+                  <h3 class="card-title">Direct Chat</h3>
+
+                  <div class="card-tools">
+                    <span title="3 New Messages" class="badge badge-warning">3</span>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+                      <i class="fas fa-comments"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <!-- Conversations are loaded here -->
+                  <div class="direct-chat-messages">
+                    <!-- Message. Default to the left -->
+                    <div class="direct-chat-msg">
+                      <div class="direct-chat-infos clearfix">
+                        <span class="direct-chat-name float-left">עידן גורין</span>
+                        <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                      </div>
+                      <!-- /.direct-chat-infos -->
+                      <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
+                      <!-- /.direct-chat-img -->
+                      <div class="direct-chat-text">
+                        טקסט
+                      </div>
+                      <!-- /.direct-chat-text -->
+                    </div>
+                    <!-- /.direct-chat-msg -->
+
+                    <!-- Message to the right -->
+                    <div class="direct-chat-msg right">
+                      <div class="direct-chat-infos clearfix">
+                        <span class="direct-chat-name float-right">שיראל אלי</span>
+                        <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                      </div>
+                      <!-- /.direct-chat-infos -->
+                      <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
+                      <!-- /.direct-chat-img -->
+                      <div class="direct-chat-text">
+                        טקסט
+                      </div>
+                      <!-- /.direct-chat-text -->
+                    </div>
+                    <!-- /.direct-chat-msg -->
+
+                    <!-- Message. Default to the left -->
+                    <div class="direct-chat-msg">
+                      <div class="direct-chat-infos clearfix">
+                        <span class="direct-chat-name float-left">עידן גורין</span>
+                        <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
+                      </div>
+                      <!-- /.direct-chat-infos -->
+                      <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
+                      <!-- /.direct-chat-img -->
+                      <div class="direct-chat-text">
+                        טקסט
+                      </div>
+                      <!-- /.direct-chat-text -->
+                    </div>
+                    <!-- /.direct-chat-msg -->
+
+                    <!-- Message to the right -->
+                    <div class="direct-chat-msg right">
+                      <div class="direct-chat-infos clearfix">
+                        <span class="direct-chat-name float-right">שיראל אלי</span>
+                        <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
+                      </div>
+                      <!-- /.direct-chat-infos -->
+                      <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
+                      <!-- /.direct-chat-img -->
+                      <div class="direct-chat-text">
+                        טקסט
+                      </div>
+                      <!-- /.direct-chat-text -->
+                    </div>
+                    <!-- /.direct-chat-msg -->
+
+                  </div>
+                  <!--/.direct-chat-messages-->
+
+                  <!-- Contacts are loaded here -->
+                  <div class="direct-chat-contacts">
+                    <ul class="contacts-list">
+                      <li>
+                        <a href="#">
+                          <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
+
+                          <div class="contacts-list-info">
+                            <span class="contacts-list-name">
+                              אסף עובד
+                              <small class="contacts-list-date float-right">2/28/2015</small>
+                            </span>
+                            <span class="contacts-list-msg">טקסט</span>
+                          </div>
+                          <!-- /.contacts-list-info -->
+                        </a>
+                      </li>
+                      <!-- End Contact Item -->
+                      <li>
+                        <a href="#">
+                          <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
+
+                          <div class="contacts-list-info">
+                            <span class="contacts-list-name">
+                              רועי גלדווסר
+                              <small class="contacts-list-date float-right">2/23/2015</small>
+                            </span>
+                            <span class="contacts-list-msg">טקסט</span>
+                          </div>
+                          <!-- /.contacts-list-info -->
+                        </a>
+                      </li>
+                      <!-- End Contact Item -->
+                      <li>
+                        <a href="#">
+                          <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
+
+                          <div class="contacts-list-info">
+                            <span class="contacts-list-name">
+                              תמר אברמוב
+                              <small class="contacts-list-date float-right">2/20/2015</small>
+                            </span>
+                            <span class="contacts-list-msg">טקסט</span>
+                          </div>
+                          <!-- /.contacts-list-info -->
+                        </a>
+                      </li>
+                      <!-- End Contact Item -->
+                      <li>
+                        <a href="#">
+                          <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
+
+                          <div class="contacts-list-info">
+                            <span class="contacts-list-name">
+                              אופיר יצחקוב
+                              <small class="contacts-list-date float-right">2/10/2015</small>
+                            </span>
+                            <span class="contacts-list-msg">טקסט</span>
+                          </div>
+                          <!-- /.contacts-list-info -->
+                        </a>
+                      </li>
+                      <!-- End Contact Item -->
+                      <li>
+                        <a href="#">
+                          <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
+
+                          <div class="contacts-list-info">
+                            <span class="contacts-list-name">
+                              יעקב סולומון
+                              <small class="contacts-list-date float-right">1/27/2015</small>
+                            </span>
+                            <span class="contacts-list-msg">טקסט</span>
+                          </div>
+                          <!-- /.contacts-list-info -->
+                        </a>
+                      </li>
+                      <!-- End Contact Item -->
+                      <li>
+                        <a href="#">
+                          <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
+
+                          <div class="contacts-list-info">
+                            <span class="contacts-list-name">
+                              דניאל וקאר
+                              <small class="contacts-list-date float-right">1/4/2015</small>
+                            </span>
+                            <span class="contacts-list-msg">טקסט</span>
+                          </div>
+                          <!-- /.contacts-list-info -->
+                        </a>
+                      </li>
+                      <!-- End Contact Item -->
+                    </ul>
+                    <!-- /.contacts-list -->
+                  </div>
+                  <!-- /.direct-chat-pane -->
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                  <form action="#" method="post">
+                    <div class="input-group">
+                      <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                      <span class="input-group-append">
+                        <button type="button" class="btn btn-warning">שלח</button>
+                      </span>
+                    </div>
+                  </form>
+                </div>
+                <!-- /.card-footer-->
+              </div>
+              <!--/.direct-chat -->
+            </div>
+
+            <div class="col-md-4">
+              <!-- USERS LIST -->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">משתמשים אחרונים</h3>
+
+                  <div class="card-tools">
+                    <span class="badge badge-danger">6 : משתמשים חדשים</span>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                  <ul class="users-list clearfix">
+                    <li>
+                      <img src="{{ ASSETS_ROOT }}/img/user.png" alt="User Image">
+                      <a class="users-list-name" href="#">אסף עובד</a>
+                      <span class="users-list-date">24.8.22</span>
+                    </li>
+                    <li>
+                      <img src="{{ ASSETS_ROOT }}/img/user.png" alt="User Image">
+                      <a class="users-list-name" href="#">שיראל אלי</a>
+                      <span class="users-list-date">2.9.22</span>
+                    </li>
+                    <li>
+                      <img src="{{ ASSETS_ROOT }}/img/user.png" alt="User Image">
+                      <a class="users-list-name" href="#">רועי גלדווסר</a>
+                      <span class="users-list-date">2.9.22</span>
+                    </li>
+                    <li>
+                      <img src="{{ ASSETS_ROOT }}/img/user.png" alt="User Image">
+                      <a class="users-list-name" href="#">תמר אברמוב</a>
+                      <span class="users-list-date">2.9.22</span>
+                    </li>
+                    <li>
+                      <img src="{{ ASSETS_ROOT }}/img/user.png" alt="User Image">
+                      <a class="users-list-name" href="#">אופיר יצחקוב</a>
+                      <span class="users-list-date">2.9.22</span>
+                    </li>
+                    <li>
+                      <img src="{{ ASSETS_ROOT }}/img/user.png" alt="User Image">
+                      <a class="users-list-name" href="#">יעקב סולומון</a>
+                      <span class="users-list-date">2.9.22</span>
+                    </li>
+                    
+                  </ul>
+                  <!-- /.users-list -->
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer text-center">
+                  <a href="/">צפה בכל המשתמשים</a>
+                </div>
+                <!-- /.card-footer -->
+              </div>
+              <!--/.card -->
+            </div>
+
+            <div class="col-md-4">
+                <!-- Calendar -->
+              <div class="card">
+                <div class="card-header border-0">
+
+                  <h3 class="card-title">
+                    <i class="far fa-calendar-alt"></i>
+                    לוח זמנים
+                  </h3>
+                  <!-- tools card -->
+                  <div class="card-tools">
+                    <!-- button with a dropdown -->
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
+                        <i class="fas fa-bars"></i>
+                      </button>
+                      <div class="dropdown-menu" role="menu">
+                        <a href="#" class="dropdown-item">הוסף אירוע חדש</a>
+                        <a href="#" class="dropdown-item">נקה אירועים</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">עבור לתצוגה מלאה</a>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                  <!-- /. tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body pt-0">
+                  <!--The calendar -->
+                  <div id="calendar" style="width: 100%"></div>
+                </div>
+                <!-- /.card-body -->
+              </div>
+            </div>
+          </div>
+
+          {% comment %} 
+
+          <!-- TABLE: LATEST TECH PROBLEMS -->
+          <div class="card">
+            <div class="card-header border-transparent">
+              <h3 class="card-title">Latest Orders</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table m-0">
+                  <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Item</th>
+                    <th>Status</th>
+                    <th>Popularity</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                    <td>Call of Duty IV</td>
+                    <td><span class="badge badge-success">Shipped</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                    <td>Samsung Smart TV</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                    <td>iPhone 6 Plus</td>
+                    <td><span class="badge badge-danger">Delivered</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                    <td>Samsung Smart TV</td>
+                    <td><span class="badge badge-info">Processing</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,-61,83,63</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                    <td>Samsung Smart TV</td>
+                    <td><span class="badge badge-warning">Pending</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                    <td>iPhone 6 Plus</td>
+                    <td><span class="badge badge-danger">Delivered</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                    <td>Call of Duty IV</td>
+                    <td><span class="badge badge-success">Shipped</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.table-responsive -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+              <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
+              <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a>
+            </div>
+            <!-- /.card-footer -->
+          </div> 
+          
+          {% endcomment %}
+
+        </div>
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- REQUIRED SCRIPTS -->
+  <!-- jQuery -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Bootstrap -->
+  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- overlayScrollbars -->
+  <script src="{{ ASSETS_ROOT }}/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  
+  <!-- ChartJS -->
+  <script src="{{ ASSETS_ROOT }}/plugins/chart.js/Chart.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/adminlte.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/demo.js"></script>
+
+  <!-- PAGE PLUGINS -->
+  <!-- jQuery Mapael -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+  <script src="{{ ASSETS_ROOT }}/plugins/raphael/raphael.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+
+<!-- daterangepicker -->
+<script src="{{ ASSETS_ROOT }}/plugins/moment/moment.min.js"></script>
+<script src="{{ ASSETS_ROOT }}/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{ ASSETS_ROOT }}/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
+<script>
+  $(function () {
+    'use strict'
+    
+    var ticksStyle = {
+      fontColor: '#495057',
+      fontStyle: 'bold'
+    }
+
+    var mode = 'index'
+    var intersect = true
+
+    var $visitorsChart = $('#visitors-chart')
+    // eslint-disable-next-line no-unused-vars
+    var visitorsChart = new Chart($visitorsChart, {
+      data: {
+        labels: ['18th', '20th', '22nd', '24th', '26th', '28th', '30th'],
+        datasets: [{
+          type: 'line',
+          data: [1, 2, 2, 3, 2, 1, 1],
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          pointBorderColor: '#007bff',
+          pointBackgroundColor: '#007bff',
+          fill: false
+          // pointHoverBackgroundColor: '#007bff',
+          // pointHoverBorderColor    : '#007bff'
+        },
+        {
+          type: 'line',
+          data: [1, 1, 2, 1, 1, 3, 1],
+          backgroundColor: 'tansparent',
+          borderColor: '#ced4da',
+          pointBorderColor: '#ced4da',
+          pointBackgroundColor: '#ced4da',
+          fill: false
+          // pointHoverBackgroundColor: '#ced4da',
+          // pointHoverBorderColor    : '#ced4da'
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        tooltips: {
+          mode: mode,
+          intersect: intersect
+        },
+        hover: {
+          mode: mode,
+          intersect: intersect
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+            // display: false,
+            gridLines: {
+              display: true,
+              lineWidth: '4px',
+              color: 'rgba(0, 0, 0, .2)',
+              zeroLineColor: 'transparent'
+            },
+            ticks: $.extend({
+              beginAtZero: true,
+              suggestedMax: 5
+            }, ticksStyle)
+          }],
+          xAxes: [{
+            display: true,
+            gridLines: {
+              display: false
+            },
+            ticks: ticksStyle
+          }]
+        }
+      }
+    })
+    
+    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+    var donutData        = {
+      labels: [
+          'סודי',
+          'סודי ביותר',
+          'אמ"ן',
+          'חיל הים',
+          'מיוחדים',
+          'שביל החלב',
+      ],
+      datasets: [
+        {
+          data: [13,7,4,5,2,5],
+          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
+        }
+      ]
+    }
+    var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    var donutChart = new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions
+    })
+  })
+
+  // The Calender
+  $('#calendar').datetimepicker({
+    format: 'L',
+    inline: true
+  })
+</script>
+
+
+{% endblock javascripts %}
