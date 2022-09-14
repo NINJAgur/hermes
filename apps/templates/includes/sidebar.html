@@ -1,7 +1,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="/" class="brand-link">
+    <a href="/" class="brand-link text-center">
       <img src="{{ ASSETS_ROOT }}/img/PalLog.png" alt="PalLog Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">PalLog</span>
     </a>
@@ -9,7 +9,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center">
         <div class="image">
           <img src="{{ ASSETS_ROOT }}/img/admin.png" class="img-circle elevation-2" alt="User Image">
         </div>
@@ -21,7 +21,7 @@
       </div>
 
       <!-- SidebarSearch Form -->
-      <div class="form-inline">
+      <div class="form-inline" style="direction:rtl">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="חיפוש" aria-label="חיפוש">
           <div class="input-group-append">
@@ -42,6 +42,7 @@
                 ראשי
                 <i class="right fas fa-angle-left"></i>
               </p>
+              <i class="fas fa-home nav-icon"></i>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
@@ -52,13 +53,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/" class="nav-link {% if 'index.html' in segment %} active {% endif %}">
+                <a href="/primary-record" class="nav-link {% if 'index.html' in segment %} active {% endif %}">
                   <p>היסטוריית התראות</p>
                   <i class="far fa-clock nav-icon"></i>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/calendar.html" class="nav-link">
+                <a href="/primary-calendar" class="nav-link">
                   <p>
                     לוח אירועים
                     <span class="badge badge-info right">2</span>
@@ -67,7 +68,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/examples-contacts.html" class="nav-link">
+                <a href="/primary-contacts" class="nav-link">
                   <p>אנשי קשר</p>
                   <i class="fas fa-users nav-icon"></i>
                 </a>
@@ -85,64 +86,28 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/examples-projects.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="/management-alerts" class="nav-link">
                   <p>תקלות והתראות</p>
+                  <i class="fas fa-exclamation-triangle nav-icon"></i>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/examples-project-add.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="/management-document" class="nav-link">
                   <p>תיעוד תקלה</p>
+                  <i class="fas fa-thumbtack nav-icon"></i>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/examples-project-edit.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="/management-edit" class="nav-link">
                   <p>עריכת תקלה</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-project-detail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>פרטי תקלה</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <p>
-                ניהול משתמש
-                <i class="fas fa-angle-left right"></i>
-              </p>
-              <i class="nav-icon fas fa-user"></i>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/examples-profile.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>פרופיל</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-forgot-password.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>שכחתי סיסמא</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-recover-password.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>איפוס סיסמא</p>
+                  <i class="fas fa-edit nav-icon"></i>
                 </a>
               </li>
             </ul>
           </li>
 
           <li class="nav-item">
-            <a href="/" class="nav-link {% if 'widgets' in segment %} active {% endif %}">
+            <a href="chat/" class="nav-link {% if 'widgets' in segment %} active {% endif %}">
               <p>
                 צ'אט מבצעי
                 <span class="right badge badge-danger">!</span>
@@ -152,7 +117,7 @@
           </li>
           
           <li class="nav-item">
-            <a href="/test-url" class="nav-link {% if 'widgets' in segment %} active {% endif %}">
+            <a href="/automations" class="nav-link {% if 'widgets' in segment %} active {% endif %}">
               <p>
                 אוטומציות
                 <span class="right badge badge-danger">!</span>
@@ -160,372 +125,8 @@
               <i class="nav-icon fas fa-robot"></i>
             </a>
           </li>
-          {% comment %} <li class="nav-header">TESTING</li>
-          <li class="nav-item has-treeview {% if 'index' in segment %} menu-open {% endif %}">
-            <a href="#" class="nav-link {% if 'index' in segment %} active {% endif %}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/index.html" class="nav-link {% if 'index.html' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index2.html" class="nav-link {% if 'index2.html' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/index3.html" class="nav-link {% if 'index3.html' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="widgets.html" class="nav-link {% if 'widgets' in segment %} active {% endif %}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Widgets
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item has-treeview {% if 'charts' in segment %} menu-open {% endif %}">
-            <a href="#" class="nav-link {% if 'charts' in segment %} active {% endif %}">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                Charts
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/charts-chartjs.html" class="nav-link {% if 'charts-chartjs' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/charts-flot.html" class="nav-link {% if 'charts-flot' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/charts-inline.html" class="nav-link {% if 'charts-inline' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview {% if 'ui-' in segment %} menu-open {% endif %}">
-            <a href="#" class="nav-link {% if 'ui-' in segment %} active {% endif %}">
-              <i class="nav-icon fas fa-tree"></i>
-              <p>
-                UI Elements
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/ui-general.html" class="nav-link {% if 'ui-general' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-icons.html" class="nav-link {% if 'ui-icons' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Icons</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-buttons.html" class="nav-link {% if 'ui-buttons' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Buttons</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-sliders.html" class="nav-link {% if 'ui-sliders' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Sliders</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-modals.html" class="nav-link {% if 'ui-modals' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Modals & Alerts</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-navbar.html" class="nav-link {% if 'ui-navbar' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Navbar & Tabs</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-timeline.html" class="nav-link {% if 'ui-timeline' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Timeline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-ribbons.html" class="nav-link {% if 'ui-ribbons' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ribbons</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview {% if 'forms-' in segment %} menu-open {% endif %}">
-            <a href="#" class="nav-link {% if 'forms-' in segment %} active {% endif %}">
-              <i class="nav-icon fas fa-edit"></i>
-              <p>
-                Forms
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/forms-general.html" class="nav-link {% if 'forms-general' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/forms-advanced.html" class="nav-link {% if 'forms-advanced' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Advanced Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/forms-editors.html" class="nav-link {% if 'forms-editors' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Editors</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/forms-validation.html" class="nav-link {% if 'forms-validation' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Validation</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview {% if 'tables-' in segment %} menu-open {% endif %}">
-            <a href="#" class="nav-link {% if 'tables-' in segment %} active {% endif %}">
-              <i class="nav-icon fas fa-table"></i>
-              <p>
-                Tables
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/tables-simple.html" class="nav-link {% if 'tables-simple' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Simple Tables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/tables-data.html" class="nav-link {% if 'tables-data' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>DataTables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/tables-jsgrid.html" class="nav-link {% if 'tables-jsgrid' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>jsGrid</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>Level 1</p>
-            </a>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-circle"></i>
-              <p>
-                Level 1
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
-                </a>
-              </li>
-              <li class="nav-item has-treeview">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>
-                    Level 2
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="far fa-dot-circle nav-icon"></i>
-                      <p>Level 3</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Level 2</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-circle nav-icon"></i>
-              <p>Level 1</p>
-            </a>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Pages
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/examples-invoice.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Invoice</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-profile.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Profile</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-projects.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Projects</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-project-add.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Add</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-project-edit.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Edit</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-project-detail.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Project Detail</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-contacts.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Contacts</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-plus-square"></i>
-              <p>
-                Extras
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/examples-forgot-password.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Forgot Password</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-recover-password.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Recover Password</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-legacy-user-menu.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Legacy User Menu</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-language-menu.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Language Menu</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-404.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Error 404</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-500.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Error 500</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/examples-blank.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Blank Page</p>
-                </a>
-              </li>
-            </ul>
-          </li> {% endcomment %}
-          
         </ul>
       </nav>
-      <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
   </aside>
   
