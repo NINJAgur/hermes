@@ -82,7 +82,7 @@
           sorting: true,
           paging: true,
 
-          data: db.clients,
+          data: JSON.parse("{{data|escapejs}}"),
 
           fields: [
               { name: "Name", type: "text", width: 150 },
