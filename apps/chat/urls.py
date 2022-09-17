@@ -1,7 +1,7 @@
-from django.urls import path, re_path
+from django.urls import path
 from apps.chat import views
 
 urlpatterns = [
-
-    path('', views.render_chat, name='chat'),
+    path('', views.rooms, name='rooms'),
+    path('<slug:slug>/', views.room, name='room'),
 ]

@@ -6,7 +6,6 @@ urlpatterns = [
     # The home page
     path('', views.index, name='home'),
     path('primary-record', views.record, name='record'),
-    path('primary-calendar', views.calendar, name='calendar'),
     path('primary-contacts', views.contacts, name='contacts'),
     path('management-alerts', views.alerts, name='alerts'),
     path('management-document', views.document, name='document'),

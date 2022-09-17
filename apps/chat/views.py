@@ -1,5 +1,17 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-# Create your views here.
-def render_chat(request):
-    return render(request,'home/index2.html')
+from apps.chat.models import Room, Message
+
+@login_required
+def rooms(request):
+    rooms = Room.objects.all()
+
+    return render(request, 'chat/rooms.html', {'rooms': rooms})
+
+@login_required
+def room(request, slug):
+    room = Room.objects.get(slug=slug)
+    messages = Message.objects.filter(room=room)[0:25]
+
+    return render(request, 'chat/room.html', {'room': room, 'messages': messages})
