@@ -1,0 +1,129 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} תקלות והתראות {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}  
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header" style="direction:rtl">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-3">
+            <h1 class="m-0 text-dark">תקלות והתראות</h1>
+          </div>
+          <div class="col-sm-4">
+            <ol class="breadcrumb float-sm-left">
+              <li class="breadcrumb-item"><a href="/">בית</a></li>
+              <li class="breadcrumb-item active">תקלות והתראות</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <section class="content" style="direction: rtl">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">טבלת נתונים</h3>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-striped projects">
+              <thead>
+                  <tr class="text-center">
+                    <th>מזהה תקלה</th>
+                    <th>סוג מערכת</th>
+                    <th>מטפל אחראי</th>
+                    <th>התקדמות</th>
+                    <th>סטטוס</th>
+                    <th>ניהול</th>
+                  </tr>
+              </thead>
+              <tbody>
+                {% for a in alerts %}
+                  <tr class="text-center">
+                      <td>{{a.record_id}}</td>
+                      <td>
+                          <a>{{a.system_type}}</a>
+                          <br/>
+                          <small>{{a.date_start}}</small>
+                      </td>
+                      <td>
+                        {{a.created_by}}
+                        <img alt="Avatar" class="table-avatar" src="{{ ASSETS_ROOT }}/img/user.png">
+                      </td>
+                      <td class="project_progress">
+                          <div class="progress progress-sm">
+                              <div class="progress-bar bg-green" role="progressbar" aria-valuenow="{{a.progression}}" aria-valuemin="0" aria-valuemax="100" style="width: {{a.progression}}%">
+                              </div>
+                          </div>
+                          <small> {{a.progression}}% </small>
+                      </td>
+                      <td class="project-state">
+                        {% if a.status == "FINISHED" %}
+                          <span class="badge badge-success">{{a.status}}</span>
+                        {% else %}
+                            {% if a.status == "IN PROGRESS" %}
+                              <span class="badge badge-warning">{{a.status}}</span>
+                            {% else %}
+                              <span class="badge badge-danger">{{a.status}}</span>
+                            {% endif %}
+                        {% endif %}
+                      </td>
+                      <td class="project-actions text-center">
+                          <a class="btn btn-primary btn-sm" href="{% url 'management-view' a.id  %}">
+                              <i class="fas fa-folder"></i>
+                              לפרטים
+                          </a>
+                          <a class="btn btn-info btn-sm" href="{% url 'management-edit' a.id  %}">
+                              <i class="fas fa-pencil-alt"></i>
+                              עריכה
+                          </a>
+                          <a class="btn btn-danger btn-sm" href="{% url 'management-del' a.id  %}">
+                              <i class="fas fa-trash"></i>
+                              מחק
+                          </a>
+                      </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/adminlte.min.js"></script>
+
+{% endblock javascripts %}

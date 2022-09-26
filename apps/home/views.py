@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
-from django.template import loader
 from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from . models import Record
+from django.http import HttpResponseRedirect
 
 @login_required(login_url="/login/")
 def index(request):
@@ -11,20 +11,30 @@ def index(request):
     return render(request,'home/main.html', context)
 
 def record(request):
-    users = User.objects.all()
-    return render(request,'home/records.html', {'users': users})
+    records = Record.objects.all()
+    return render(request,'home/records.html', {'records': records})
 
 def contacts(request):
-    return render(request,'home/contacts.html')
+    users = User.objects.all()
+    return render(request,'home/contacts.html', {'users': users})
 
 def alerts(request):
-    return render(request,'home/examples-projects.html')
+    alerts = Record.objects.all()
+    return render(request,'home/alerts.html', {'alerts': alerts})
 
-def document(request):
-    return render(request,'home/examples-project-add.html')
+def alert_document(request):
+    return render(request,'home/alerts-add.html')
 
-def edit(request):
-    return render(request,'home/examples-project-edit.html')
+def alert_del(request, pk):
+    record = Record.objects.get(id=pk)
+    record.delete()
+    return HttpResponseRedirect('/management-alerts')
+
+def alert_edit(request, pk):
+    return render(request,'home/alerts-edit.html')
+
+def alert_view(request, pk):
+    return render(request,'home/alerts-detail.html')
 
 def automations(request):
     return render(request,'home/timeline.html')

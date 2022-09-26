@@ -54,6 +54,7 @@
                 <table id="table" class="table table-bordered table-hover">
                   <thead>
                   <tr>
+                    <th>מזהה תקלה</th>
                     <th>סוג מערכת</th>
                     <th>רשת</th>
                     <th>אחראי</th>
@@ -61,19 +62,19 @@
                     <th>תאריך סיום</th>
                     <th>תיאור</th>
                     <th>פתרון</th>
-
                   </tr>
                   </thead>
                   <tbody>
-                  {% for user in users %}
+                  {% for r in records %}
                     <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                      <td>{{r.record_id}}</td>
+                      <td>{{r.system_type}}</td>
+                      <td>{{r.network}}</td>
+                      <td>{{r.created_by}}</td>
+                      <td>{{r.date_start}}</td>
+                      <td>{{r.date_finish}}</td>
+                      <td>{{r.short_description}}</td>
+                      <td>{{r.short_solution}}</td>
                     </tr>
                   {% endfor %}
                   </tbody>
