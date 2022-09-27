@@ -1,5 +1,6 @@
 from operator import truediv
 from os import system
+from pyexpat import model
 from django.db import models
 from django.db.models import PositiveIntegerField
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -36,7 +37,7 @@ class Record(models.Model):
     status = models.CharField(max_length=20, choices=CHOICES_STATUS, default=IN_PROGRESS)
     network = models.CharField(max_length = 12)
     date_start = models.DateField()
-    date_finish = models.DateField(blank=True)
+    date_finish = models.DateField()
     
     progression = PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
@@ -47,3 +48,8 @@ class Record(models.Model):
 
     def __str__(self):
         return str(self.record_id)
+
+class Update(models.Model):
+    id = models.AutoField(default=0, primary_key=True)
+    published = models.DateField()
+    desc = models.TextField(blank=True, null=True)

@@ -1,9 +1,12 @@
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib import messages
+
 from . models import Record
-from django.http import HttpResponseRedirect
+from .  import forms
+import uuid
 
 @login_required(login_url="/login/")
 def index(request):
@@ -23,7 +26,20 @@ def alerts(request):
     return render(request,'home/alerts.html', {'alerts': alerts})
 
 def alert_document(request):
-    return render(request,'home/alerts-add.html')
+    recordForm=forms.RecordForm()
+    if request.method=='POST':
+        recordForm=forms.RecordForm(request.POST)
+        if recordForm.is_valid():
+            record=recordForm.save(commit=False)
+            user=User.objects.get(id=request.POST.get('created_by'))
+            record.created_by = user
+            record.save()       
+            messages.info(request, ' !הזנת הנתונים בוצעה בהצלחה')
+        else:
+            print("form is invalid")
+            messages.info(request, 'שגיאה בהזנת הנתונים')
+        return HttpResponseRedirect('/management-alerts')
+    return render(request,'home/alerts-add.html', {'recordForm':recordForm})
 
 def alert_del(request, pk):
     record = Record.objects.get(id=pk)
