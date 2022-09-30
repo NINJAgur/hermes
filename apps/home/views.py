@@ -6,26 +6,35 @@ from django.contrib import messages
 
 from . models import Record
 from .  import forms
-import uuid
 
 @login_required(login_url="/login/")
 def index(request):
-    context = {'segment': 'index'}
-    return render(request,'home/main.html', context)
+    dict={
+        'segment' : {'main', 'dashboard'},
+        'lastestRecords'  : Record.objects.all().order_by('-id')[:6],
+        'lastestUsers'   : User.objects.all().order_by('-id')[:8],
+    }
+
+    return render(request,'home/main.html', dict)
 
 def record(request):
     records = Record.objects.all()
-    return render(request,'home/records.html', {'records': records})
+    context = {'main', 'record'}
+    return render(request,'home/records.html', {'records': records, 'segment' : context})
 
 def contacts(request):
     users = User.objects.all()
-    return render(request,'home/contacts.html', {'users': users})
+    context = {'main', 'contacts'}
+    return render(request,'home/contacts.html', {'users': users, 'segment' : context})
 
 def alerts(request):
     alerts = Record.objects.all()
-    return render(request,'home/alerts.html', {'alerts': alerts})
+    context = {'management', 'alerts'}
+    return render(request,'home/alerts.html', {'alerts': alerts, 'segment' : context})
 
 def alert_document(request):
+    context = {'management', 'document'}
+
     recordForm=forms.RecordForm()
     if request.method=='POST':
         recordForm=forms.RecordForm(request.POST)
@@ -34,12 +43,12 @@ def alert_document(request):
             user=User.objects.get(id=request.POST.get('created_by'))
             record.created_by = user
             record.save()       
-            messages.info(request, ' !הזנת הנתונים בוצעה בהצלחה')
+            messages.info(request, '!הזנת הנתונים בוצעה בהצלחה')
         else:
             print("form is invalid")
             messages.info(request, 'שגיאה בהזנת הנתונים')
         return HttpResponseRedirect('/management-alerts')
-    return render(request,'home/alerts-add.html', {'recordForm':recordForm})
+    return render(request,'home/alerts-add.html', {'recordForm':recordForm, 'segment' : context})
 
 def alert_del(request, pk):
     record = Record.objects.get(id=pk)
@@ -47,13 +56,36 @@ def alert_del(request, pk):
     return HttpResponseRedirect('/management-alerts')
 
 def alert_edit(request, pk):
-    return render(request,'home/alerts-edit.html')
+    context = {'management', 'document'}
+    currentRecord = Record.objects.get(id=pk)
+    recordForm=forms.RecordForm(instance=currentRecord)
+    if request.method=='POST':
+        recordForm=forms.RecordForm(request.POST, instance=currentRecord)
+        if recordForm.is_valid():
+            record=recordForm.save(commit=False)
+            user=User.objects.get(id=request.POST.get('created_by'))
+            record.created_by = user
+            record.save()      
+            messages.info(request, '!עדכון הנתונים בוצעה בהצלחה')
+        else:
+            print("form is invalid")
+            messages.info(request, 'שגיאה בעדכון הנתונים')
+        return HttpResponseRedirect('/management-alerts')
+    return render(request,'home/alerts-edit.html', {'recordForm':recordForm, 'segment' : context})
+    
 
 def alert_view(request, pk):
-    return render(request,'home/alerts-detail.html')
+    context = {'management', 'document'}
+    record = Record.objects.get(id=pk)
+    return render(request,'home/alerts-detail.html', {'segment' : context, 'record' : record})
+
+def alert_info(request):
+    context = {'management', 'info'}
+    return render(request, 'home/widgets.html', {'segment' : context})
 
 def automations(request):
-    return render(request,'home/timeline.html')
+    context = {'automations'}
+    return render(request,'home/timeline.html', {'segment' : context})
 
 # @login_required(login_url="/login/")
 # def pages(request):

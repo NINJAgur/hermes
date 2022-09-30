@@ -35,9 +35,9 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item has-treeview {% if 'index' in segment %} menu-open {% endif %}">
+          <li class="nav-item has-treeview {% if 'main' in segment %} menu-open {% endif %}">
             
-            <a href="#" class="nav-link {% if 'index' in segment %} active {% endif %}">
+            <a href="/" class="nav-link {% if 'main' in segment %} active {% endif %}">
               <p>
                 ראשי
                 <i class="right fas fa-angle-left"></i>
@@ -46,19 +46,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/" class="nav-link {% if 'index.html' in segment %} active {% endif %}">
+                <a href="/" class="nav-link {% if 'dashboard' in segment %} active {% endif %}">
                   <p>דשבורד</p>
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/primary-record" class="nav-link {% if 'index.html' in segment %} active {% endif %}">
+                <a href="/primary-record" class="nav-link {% if 'record' in segment %} active {% endif %}">
                   <p>ארכיון התראות</p>
                   <i class="far fa-clock nav-icon"></i>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/primary-contacts" class="nav-link">
+                <a href="/primary-contacts" class="nav-link {% if 'contacts' in segment %} active {% endif %}">
                   <p>אנשי קשר</p>
                   <i class="fas fa-users nav-icon"></i>
                 </a>
@@ -66,8 +66,8 @@
             </ul>
           </li>
           
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <li class="nav-item has-treeview {% if 'management' in segment %} menu-open {% endif %}">
+            <a href="/" class="nav-link {% if 'management' in segment %} active {% endif %}">
               <p>
                 ניהול תקלות
                 <i class="fas fa-angle-left right"></i>
@@ -76,28 +76,28 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/management-alerts" class="nav-link">
+                <a href="/management-alerts" class="nav-link {% if 'alerts' in segment %} active {% endif %}">
                   <p>תקלות והתראות</p>
                   <i class="fas fa-exclamation-triangle nav-icon"></i>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/management-document" class="nav-link">
+                <a href="/management-document" class="nav-link {% if 'document' in segment %} active {% endif %}">
                   <p>תיעוד תקלה</p>
                   <i class="fas fa-thumbtack nav-icon"></i>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/management-edit" class="nav-link">
-                  <p>עריכת תקלה</p>
-                  <i class="fas fa-edit nav-icon"></i>
+                <a href="/management-info" class="nav-link {% if 'info' in segment %} active {% endif %}">
+                  <p>נהלי תפעול</p>
+                  <i class="fas fa-folder-open nav-icon"></i>
                 </a>
               </li>
             </ul>
           </li>
 
           <li class="nav-item">
-            <a href="chat/" class="nav-link {% if 'widgets' in segment %} active {% endif %}">
+            <a href="chat/" class="nav-link {% if 'chat' in segment %} active {% endif %}">
               <p>
                 צ'אט מבצעי
                 <span class="right badge badge-danger">!</span>
@@ -107,7 +107,7 @@
           </li>
           
           <li class="nav-item">
-            <a href="/automations" class="nav-link {% if 'widgets' in segment %} active {% endif %}">
+            <a href="/automations" class="nav-link {% if 'automations' in segment %} active {% endif %}">
               <p>
                 אוטומציות
                 <span class="right badge badge-danger">!</span>

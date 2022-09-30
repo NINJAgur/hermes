@@ -29,9 +29,9 @@ class Record(models.Model):
         (ABORTED, 'ABORTED')
     )
 
-    id = models.AutoField(default=0, primary_key=True)
+    id = models.AutoField(primary_key=True)
     record_id =  models.UUIDField(default=uuid.uuid4, editable=False)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, related_name='records', on_delete=models.CASCADE)
     
     system_type = models.CharField(max_length=20, choices=CHOICES_SYSTEM, default=AIRPORT)
     status = models.CharField(max_length=20, choices=CHOICES_STATUS, default=IN_PROGRESS)
@@ -50,6 +50,7 @@ class Record(models.Model):
         return str(self.record_id)
 
 class Update(models.Model):
-    id = models.AutoField(default=0, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    record = models.ForeignKey(Record, related_name='updates', on_delete=models.CASCADE)
     published = models.DateField()
     desc = models.TextField(blank=True, null=True)

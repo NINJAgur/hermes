@@ -5,9 +5,9 @@ from apps.chat.models import Room, Message
 
 @login_required
 def rooms(request):
+    context = {'chat'}
     rooms = Room.objects.all()
-
-    return render(request, 'chat/rooms.html', {'rooms': rooms})
+    return render(request, 'chat/rooms.html', {'rooms': rooms, 'segment': context})
 
 @login_required
 def room(request, slug):

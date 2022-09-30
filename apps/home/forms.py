@@ -19,3 +19,7 @@ class RecordForm(forms.ModelForm):
             'short_solution': forms.Textarea(attrs={'rows': 2, 'cols': 50}),
             'long_solution': forms.Textarea(attrs={'rows': 5, 'cols': 50})
         }
+
+class infoForm(forms.ModelForm):
+    class Meta:
+       pass 
