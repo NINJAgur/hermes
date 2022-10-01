@@ -1,10 +1,12 @@
+from datetime import datetime
+from turtle import update
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib import messages
 
-from . models import Record
+from . models import Record, Update
 from .  import forms
 
 @login_required(login_url="/login/")
@@ -77,7 +79,35 @@ def alert_edit(request, pk):
 def alert_view(request, pk):
     context = {'management', 'document'}
     record = Record.objects.get(id=pk)
-    return render(request,'home/alerts-detail.html', {'segment' : context, 'record' : record})
+    updates = Update.objects.filter(record=record)
+
+    updateForm=forms.UpdateForm()
+    if request.method=='POST':
+        updateForm=forms.UpdateForm(request.POST)
+        if updateForm.is_valid():
+            update=updateForm.save(commit=False)
+            record=Record.objects.get(id=request.POST.get('record'))
+            update.record = record
+            update.published = datetime.now()
+            update.published_by = request.user
+            update.save()      
+        else:
+            print("form is invalid")
+        return HttpResponseRedirect('/management-view/'+str(pk))
+
+    dict={
+        'segment' : context,
+        'record' : record,
+        'updates' : updates,
+        'updateForm': updateForm
+    }
+
+    return render(request,'home/alerts-detail.html', dict)
+
+def update_del(request, pk, id):
+    u = Update.objects.get(id=pk)
+    u.delete()
+    return HttpResponseRedirect('/management-view/'+str(id))
 
 def alert_info(request):
     context = {'management', 'info'}

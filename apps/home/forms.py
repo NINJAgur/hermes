@@ -1,9 +1,13 @@
-from . models import Record
+from dataclasses import fields
+from . models import Record, Update
 from django.contrib.auth.models import User
 from django import forms
 
 class DateInput(forms.DateInput):
     input_type = 'date'
+
+class DateTimeInput(forms.DateInput):
+    input_type = 'datetime'
 
 class RecordForm(forms.ModelForm):
     created_by=forms.ModelChoiceField(queryset=User.objects.all(),empty_label="מטפל אחראי", to_field_name="id")
@@ -20,6 +24,15 @@ class RecordForm(forms.ModelForm):
             'long_solution': forms.Textarea(attrs={'rows': 5, 'cols': 50})
         }
 
-class infoForm(forms.ModelForm):
+class UpdateForm(forms.ModelForm):
+    record = forms.ModelChoiceField(queryset=Record.objects.all(),empty_label="תקלה", to_field_name="id")
+    class Meta:
+       model = Update
+       fields = ['desc'] 
+       widgets = {
+            'desc': forms.Textarea(attrs={'rows': 2, 'cols': 50}),
+       }
+
+class InfoForm(forms.ModelForm):
     class Meta:
        pass 

@@ -13,6 +13,8 @@ urlpatterns = [
     path('management-view/<int:pk>', views.alert_view, name='management-view'),
     path('management-del/<int:pk>', views.alert_del, name='management-del'),
     path('management-edit/<int:pk>', views.alert_edit, name='management-edit'),
+
+    path('update-del/<int:pk>/<int:id>', views.update_del, name='update-del'),
     path('automations', views.automations, name='automation'),
 
     # re_path(r'^.*\.*', views.pages, name='pages'),

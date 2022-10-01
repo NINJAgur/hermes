@@ -29,7 +29,7 @@
           <div class="col-sm-3">
             <h1 class="m-0 text-dark">פרטי תקלה</h1>
           </div>
-          <div class="col-sm-4">
+          <div class="col-sm-6">
             <ol class="breadcrumb float-sm-left">
               <li class="breadcrumb-item"><a href="/">בית</a></li>
               <li class="breadcrumb-item"><a href="/management-alerts">תקלות והתראות</a></li>
@@ -42,142 +42,82 @@
 
     <!-- Main content -->
     <section class="content">
-
       <!-- Default box -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Projects Detail</h3>
+          <h3 class="card-title">ניתוח תקלה</h3>
         </div>
-        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-          Launch Default Modal
-        </button>
         <div class="card-body">
           <div class="row">
             <div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
-              <div class="row">
+              <div class="row" style="margin-bottom:3rem;">
                 <div class="col-12 col-sm-4">
-                  <div class="info-box bg-light">
-                    <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted">Estimated budget</span>
-                      <span class="info-box-number text-center text-muted mb-0">2300</span>
-                    </div>
-                  </div>
+                  <button type="button" style="height:3rem" class="btn btn-block btn-outline-danger">{{record.system_type}} : מערכת</button>
                 </div>
                 <div class="col-12 col-sm-4">
-                  <div class="info-box bg-light">
-                    <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted">Total amount spent</span>
-                      <span class="info-box-number text-center text-muted mb-0">2000</span>
-                    </div>
-                  </div>
+                  <button type="button" style="height:3rem" class="btn btn-block btn-outline-warning">{{record.network}} : רשת</button>
                 </div>
                 <div class="col-12 col-sm-4">
-                  <div class="info-box bg-light">
-                    <div class="info-box-content">
-                      <span class="info-box-text text-center text-muted">Estimated project duration</span>
-                      <span class="info-box-number text-center text-muted mb-0">20</span>
-                    </div>
-                  </div>
+                  <button type="button" style="height:3rem" class="btn btn-block btn-outline-success">{{record.progression}}% : אחוזי ביצוע</button>
                 </div>
               </div>
               <div class="row">
-                <div class="col-12">
-                  <h4>Recent Activity</h4>
-                    <div class="post">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="{{ ASSETS_ROOT }}/img/user.png" alt="user image">
-                        <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                        </span>
-                        <span class="description">Shared publicly - 7:45 PM today</span>
+                <div class="col-md-12">
+                  <!-- The time line -->
+                  <div class="timeline">
+                    <!-- timeline -->
+                    {% for u in updates %}
+                      <div>
+                        <i class="fas fa-envelope bg-grey"></i>
+                        <div class="timeline-item">
+                          <span class="time"><i class="fas fa-clock"></i> {{u.published}}</span>
+                          <h3 class="timeline-header">פרסם עדכון <a href="/">{{u.published_by}}</a></h3>
+                          <div class="timeline-body">{{u.desc}}</div>
+                          <div class="timeline-footer">
+                            <a class="btn btn-danger btn-sm" href="{% url 'update-del' u.id record.id %}">מחק</a>
+                          </div>
+                        </div>
                       </div>
-                      <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore.
-                      </p>
-
-                      <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
-                      </p>
+                    {% endfor %}
+                    <!-- END timeline -->
+                    <div>
+                      <i class="fas fa-hourglass-end bg-gray"></i>
                     </div>
-
-                    <div class="post clearfix">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Image">
-                        <span class="username">
-                          <a href="#">Sarah Ross</a>
-                        </span>
-                        <span class="description">Sent you a message - 3 days ago</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore.
-                      </p>
-                      <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 2</a>
-                      </p>
-                    </div>
-
-                    <div class="post">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="{{ ASSETS_ROOT }}/img/user.png" alt="user image">
-                        <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
-                        </span>
-                        <span class="description">Shared publicly - 5 days ago</span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore.
-                      </p>
-
-                      <p>
-                        <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v1</a>
-                      </p>
-                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
-              <h3 class="text-primary"><i class="fas fa-paint-brush"></i> AdminLTE v3</h3>
-              <p class="text-muted">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr.</p>
-              <br>
+              <h4 class="text-primary"> : מזהה תקלה</h4>
+              <h5 class="text-primary"> {{record.record_id}}</h5>
+              <div class="card-header">
+                <h3 class="card-title">תיאור תקלה</h3>
+              </div>
+              <p class="text-muted">{{record.long_description}}</p>
+
+              {% if record.long_solution != "" %}
+                <div class="card-header">
+                  <h3 class="card-title">פתרון תקלה </h3>
+                </div>
+                <p class="text-muted">{{record.long_solution}}</p>
+              {% endif %}
+              
               <div class="text-muted">
-                <p class="text-sm">Client Company
-                  <b class="d-block">Deveint Inc</b>
+                <p class="text-sm">: נוצר על ידי
+                  <b class="d-block">{{record.created_by}}</b>
                 </p>
-                <p class="text-sm">Project Leader
-                  <b class="d-block">Tony Chicken</b>
+                <p class="text-sm">: תאריך התחלה
+                  <b class="d-block">{{record.date_start}}</b>
+                </p>
+                <p class="text-sm">: תאריך סיום
+                  <b class="d-block">{{record.date_finish}}</b>
                 </p>
               </div>
 
-              <h5 class="mt-5 text-muted">Project files</h5>
-              <ul class="list-unstyled">
-                <li>
-                  <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Functional-requirements.docx</a>
-                </li>
-                <li>
-                  <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-pdf"></i> UAT.pdf</a>
-                </li>
-                <li>
-                  <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-envelope"></i> Email-from-flatbal.mln</a>
-                </li>
-                <li>
-                  <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-image "></i> Logo.png</a>
-                </li>
-                <li>
-                  <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i> Contract-10_12_2014.docx</a>
-                </li>
-              </ul>
               <div class="text-center mt-5 mb-3">
-                <a href="#" class="btn btn-sm btn-primary">Add files</a>
-                <a href="#" class="btn btn-sm btn-warning">Report contact</a>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                  הוסף עדכון
+                </button>
               </div>
             </div>
           </div>
@@ -185,6 +125,34 @@
         <!-- /.card-body -->
       </div>
 
+      <div class="modal fade" id="modal-default" style="direction:rtl">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">תפריט הוספת עדכון</h5>
+            </div>
+            <div class="modal-body">
+              <form method="POST" autocomplete="off" style="margin:20px;margin-top: 0px;">
+                {%csrf_token%}
+              
+                <div class="form-group">
+                  <label for="record">תקלה</label>
+                  {% render_field updateForm.record|attr:'required:true' class="form-control" %}
+                  <br>
+                  <label for="desc"> תיאור</label>
+                  {% render_field updateForm.desc|attr:'required:true' class="form-control" %}
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
+                  <button type="submit" class="btn btn-primary">שמור</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
     </section>
     <!-- /.content -->
   </div>
