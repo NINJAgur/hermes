@@ -1,121 +1,57 @@
-from datetime import datetime
-from turtle import update
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import loader
+from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.contrib import messages
+from apps.authentication import models
 
-from . models import Record, Update
-from .  import forms
+#@login_required(login_url="/login/")
+def user_list(request):
+    u = models.CustomUser.objects.filter(active=False)
+    active_user = models.CustomUser.objects.filter(active=True)
+    for user in u:
+        print(user.active)
+        if request.POST.get(user.name) == "add":
+            user.active = True
+            user.save()
+            
+            
+        else:
+            if request.POST.get(user.name) == "delete":
+                delete_user = models.CustomUser.objects.get(name=user.name)
+                delete_user.delete()
+                
+    for user in active_user:
+        if request.POST.get(user.name) == "delete":
+            delete_user = models.CustomUser.objects.get(name=user.name)
+            delete_user.delete()
+        
+    return render(request, "home/user_list.html", {"u":u, "active_user":active_user})
 
 @login_required(login_url="/login/")
 def index(request):
-    dict={
-        'segment' : {'main', 'dashboard'},
-        'lastestRecords'  : Record.objects.all().order_by('-id')[:6],
-        'lastestUsers'   : User.objects.all().order_by('-id')[:8],
-    }
-
-    return render(request,'home/main.html', dict)
+    context = {'segment': 'index'}
+    return render(request,'home/main.html', context)
 
 def record(request):
-    records = Record.objects.all()
-    context = {'main', 'record'}
-    return render(request,'home/records.html', {'records': records, 'segment' : context})
+    users = User.objects.all()
+    return render(request,'home/records.html', {'users': users})
 
 def contacts(request):
-    users = User.objects.all()
-    context = {'main', 'contacts'}
-    return render(request,'home/contacts.html', {'users': users, 'segment' : context})
+    return render(request,'home/contacts.html')
 
 def alerts(request):
-    alerts = Record.objects.all()
-    context = {'management', 'alerts'}
-    return render(request,'home/alerts.html', {'alerts': alerts, 'segment' : context})
+    return render(request,'home/examples-projects.html')
 
-def alert_document(request):
-    context = {'management', 'document'}
+def document(request):
+    return render(request,'home/examples-project-add.html')
 
-    recordForm=forms.RecordForm()
-    if request.method=='POST':
-        recordForm=forms.RecordForm(request.POST)
-        if recordForm.is_valid():
-            record=recordForm.save(commit=False)
-            user=User.objects.get(id=request.POST.get('created_by'))
-            record.created_by = user
-            record.save()       
-            messages.info(request, '!הזנת הנתונים בוצעה בהצלחה')
-        else:
-            print("form is invalid")
-            messages.info(request, 'שגיאה בהזנת הנתונים')
-        return HttpResponseRedirect('/management-alerts')
-    return render(request,'home/alerts-add.html', {'recordForm':recordForm, 'segment' : context})
-
-def alert_del(request, pk):
-    record = Record.objects.get(id=pk)
-    record.delete()
-    return HttpResponseRedirect('/management-alerts')
-
-def alert_edit(request, pk):
-    context = {'management', 'document'}
-    currentRecord = Record.objects.get(id=pk)
-    recordForm=forms.RecordForm(instance=currentRecord)
-    if request.method=='POST':
-        recordForm=forms.RecordForm(request.POST, instance=currentRecord)
-        if recordForm.is_valid():
-            record=recordForm.save(commit=False)
-            user=User.objects.get(id=request.POST.get('created_by'))
-            record.created_by = user
-            record.save()      
-            messages.info(request, '!עדכון הנתונים בוצעה בהצלחה')
-        else:
-            print("form is invalid")
-            messages.info(request, 'שגיאה בעדכון הנתונים')
-        return HttpResponseRedirect('/management-alerts')
-    return render(request,'home/alerts-edit.html', {'recordForm':recordForm, 'segment' : context})
-    
-
-def alert_view(request, pk):
-    context = {'management', 'document'}
-    record = Record.objects.get(id=pk)
-    updates = Update.objects.filter(record=record)
-
-    updateForm=forms.UpdateForm()
-    if request.method=='POST':
-        updateForm=forms.UpdateForm(request.POST)
-        if updateForm.is_valid():
-            update=updateForm.save(commit=False)
-            record=Record.objects.get(id=request.POST.get('record'))
-            update.record = record
-            update.published = datetime.now()
-            update.published_by = request.user
-            update.save()      
-        else:
-            print("form is invalid")
-        return HttpResponseRedirect('/management-view/'+str(pk))
-
-    dict={
-        'segment' : context,
-        'record' : record,
-        'updates' : updates,
-        'updateForm': updateForm
-    }
-
-    return render(request,'home/alerts-detail.html', dict)
-
-def update_del(request, pk, id):
-    u = Update.objects.get(id=pk)
-    u.delete()
-    return HttpResponseRedirect('/management-view/'+str(id))
-
-def alert_info(request):
-    context = {'management', 'info'}
-    return render(request, 'home/widgets.html', {'segment' : context})
+def edit(request):
+    return render(request,'home/examples-project-edit.html')
 
 def automations(request):
-    context = {'automations'}
-    return render(request,'home/timeline.html', {'segment' : context})
+    return render(request,'home/timeline.html')
 
 # @login_required(login_url="/login/")
 # def pages(request):
