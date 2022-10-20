@@ -48,11 +48,12 @@ class ManualForm(forms.ModelForm):
     system_type = forms.ChoiceField(choices=CHOICES_SYSTEM)
     network = forms.CharField(max_length=20)
     
-    manual = forms.FileField()
+    man_file = forms.FileField()
     
     class Meta:
        model = Manual
-       fields = ['system_type', 'network', 'manual']
+       fields = ['name', 'system_type', 'network', 'short_description', 'man_file']
        widgets = {
-           '': None
+           'name': forms.Textarea(attrs={'rows': 1, 'cols': 50}),
+           'short_description': forms.Textarea(attrs={'rows': 2, 'cols': 50})
        }

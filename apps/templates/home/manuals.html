@@ -1,4 +1,5 @@
 {% extends "layouts/base.html" %}
+{% load widget_tweaks %}
 
 {% block title %} ארכיון נהלים {% endblock %} 
 
@@ -59,6 +60,7 @@
                       <th>רשת</th>
                       <th>מחבר</th>
                       <th>תיאור</th>
+                      <th>ניהול</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -69,13 +71,76 @@
                       <td>{{m.network}}</td>
                       <td>{{m.created_by}}</td>
                       <td>{{m.short_description}}</td>
+                      <td class="text-center">
+                        <a class="btn btn-primary" href="{{ ASSETS_ROOT }}/upload-manuals/{{m.filename}}" download="{{m.name}}">
+                          <i class="fas fa-file-download"></i>
+                        </a>
+                        <a class="btn btn-danger" href="{% url 'manual-del' m.id  %}">
+                          <i class="fas fa-trash"></i>
+                        </a>
+                      </td>
+                      
                     </tr>
                     {% endfor %}
                   </tbody>
                 </table>
+                <div class="text-center mt-5 mb-3">
+                  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                    הוסף נוהל
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+      
+        <div class="modal fade" id="modal-default" style="direction:rtl">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">תפריט הוספת נוהל</h5>
+              </div>
+              <div class="modal-body">
+                <form method="POST" autocomplete="off" enctype="multipart/form-data" style="margin:20px;margin-top: 0px;">
+                  {%csrf_token%}
+                  
+                  <div class="form-group">
+                    <label for="name">שם</label>
+                    {% render_field manualForm.name|attr:'required:true' class="form-control" %}
+                    <br>
+                    <label for="system_type">סוג מערכת</label>
+                    {% render_field manualForm.system_type|attr:'required:true' class="form-control" %}
+                    <br>
+                    <label for="network">רשת</label>
+                    {% render_field manualForm.network|attr:'required:true' class="form-control" %}
+                    <br>
+                    <label for="short_description">תיאור</label>
+                    {% render_field manualForm.short_description|attr:'required:true' class="form-control" %}
+                    <br>
+                    <label for="man_file">קובץ</label>
+                    {% render_field manualForm.man_file|attr:'required:true' class="form-control" %}
+                  </div>
+
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
+                    <button type="submit" class="btn btn-primary">שמור</button>
+                  </div>
+                </form>
+
+                <div style="height: 38px;">
+                  {% if messages %}
+                  <div class="messages">
+                      {% for message in messages %}
+                      <label style="direction:ltr"  {% if message.tags %} class="text-danger {{ message.tags }} " {% endif %}> {{ message }}</label>
+                      {% endfor %}
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
         </div>
       </div>
     </section>

@@ -15,6 +15,7 @@ urlpatterns = [
     path('management-edit/<int:pk>', views.alert_edit, name='management-edit'),
 
     path('update-del/<int:pk>/<int:id>', views.update_del, name='update-del'),
+    path('manual-del/<int:pk>', views.update_del, name='manual-del'),
     path('automations', views.automations, name='automation'),
 
     # re_path(r'^.*\.*', views.pages, name='pages'),

@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 from turtle import update
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -109,10 +110,36 @@ def update_del(request, pk, id):
     u.delete()
     return HttpResponseRedirect('/management-view/'+str(id))
 
+def update_del(request, pk):
+    m = Manual.objects.get(id=pk)
+    os.remove("apps/static/assets/upload-manuals/"+m.filename())
+    m.delete()
+    return HttpResponseRedirect('/management-manuals')
+
 def manuals(request):
+    context = {'management', 'document'}
     manuals = Manual.objects.all()
-    context = {'management', 'manuals'}
-    return render(request,'home/manuals.html', {'manuals': manuals, 'segment' : context})
+
+    manualForm=forms.ManualForm()
+    if request.method=='POST':
+        manualForm=forms.ManualForm(request.POST, request.FILES)
+        if manualForm.is_valid():
+            manual=manualForm.save(commit=False)
+            manual.created_by = request.user
+            manual.save()      
+        else:
+            print(manualForm.errors)
+            messages.info(request, 'שגיאה בהזנת הנתונים')
+            print("form is invalid")
+        return HttpResponseRedirect('/management-manuals')
+
+    dict={
+        'segment' : context,
+        'manuals': manuals,
+        'manualForm': manualForm
+    }
+
+    return render(request,'home/manuals.html', dict)
 
 
 def automations(request):
