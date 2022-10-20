@@ -1,7 +1,8 @@
 from dataclasses import fields
-from . models import Record, Update
+from . models import Manual, Record, Update
 from django.contrib.auth.models import User
 from django import forms
+from django.core.validators import FileExtensionValidator
 
 class DateInput(forms.DateInput):
     input_type = 'date'
@@ -10,10 +11,10 @@ class DateTimeInput(forms.DateInput):
     input_type = 'datetime'
 
 class RecordForm(forms.ModelForm):
-    created_by=forms.ModelChoiceField(queryset=User.objects.all(),empty_label="מטפל אחראי", to_field_name="id")
+    created_by = forms.ModelChoiceField(queryset=User.objects.all(),empty_label="מטפל אחראי", to_field_name="id")
     class Meta:
-        model=Record
-        fields=['system_type', 'status', 'network', 'date_start', 'date_finish', 'progression', 
+        model = Record
+        fields = ['system_type', 'status', 'network', 'date_start', 'date_finish', 'progression', 
         'short_description', 'long_description', 'short_solution', 'long_solution']
         widgets = {
             'date_start': DateInput(format=('%d-%m-%Y'), attrs={'class': 'form-control','type': 'date'}),
@@ -33,6 +34,25 @@ class UpdateForm(forms.ModelForm):
             'desc': forms.Textarea(attrs={'rows': 2, 'cols': 50}),
        }
 
-class InfoForm(forms.ModelForm):
+class ManualForm(forms.ModelForm):
+    AIRPORT = 'AIRPORT'
+    BE = 'BE'
+    OTHER = 'OTHER'
+
+    CHOICES_SYSTEM = (
+        (AIRPORT, 'AIRPORT'),
+        (BE, 'BE'),
+        (OTHER, 'OTHER')
+    )
+    
+    system_type = forms.ChoiceField(choices=CHOICES_SYSTEM)
+    network = forms.CharField(max_length=20)
+    
+    manual = forms.FileField()
+    
     class Meta:
-       pass 
+       model = Manual
+       fields = ['system_type', 'network', 'manual']
+       widgets = {
+           '': None
+       }

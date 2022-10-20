@@ -126,4 +126,18 @@
   <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="{{ ASSETS_ROOT }}/js/adminlte.min.js"></script>
 
+  <!-- page script -->
+  <script>
+    $(function () {
+      $('#table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+  </script>
 {% endblock javascripts %}

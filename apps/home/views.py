@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib import messages
 
-from . models import Record, Update
+from . models import Manual, Record, Update
 from .  import forms
 
 @login_required(login_url="/login/")
@@ -109,9 +109,11 @@ def update_del(request, pk, id):
     u.delete()
     return HttpResponseRedirect('/management-view/'+str(id))
 
-def alert_info(request):
-    context = {'management', 'info'}
-    return render(request, 'home/widgets.html', {'segment' : context})
+def manuals(request):
+    manuals = Manual.objects.all()
+    context = {'management', 'manuals'}
+    return render(request,'home/manuals.html', {'manuals': manuals, 'segment' : context})
+
 
 def automations(request):
     context = {'automations'}
