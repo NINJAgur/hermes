@@ -1,13 +1,21 @@
-from datetime import datetime
-from turtle import update
+from faulthandler import disable
+from socket import INADDR_MAX_LOCAL_GROUP
+from tokenize import group
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.template import loader
+from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
+from apps.authentication import models
 from django.contrib import messages
 
 from . models import Record, Update
 from .  import forms
+
+
+
 
 @login_required(login_url="/login/")
 def index(request):
@@ -19,6 +27,49 @@ def index(request):
 
     return render(request,'home/main.html', dict)
 
+def user_list(request):
+    for x in User.objects.all():
+        if x in User.objects.filter(groups__name='disable'):
+            print(str(x) + " is disabeld")
+
+        if x in User.objects.filter(groups__name='active_user'):
+            print(str(x) + " is active")
+
+        if x in User.objects.filter(groups__name='superuser'):
+            print(str(x) + " is superuser")
+        
+
+    disable_user = User.objects.filter(groups__name='disable')
+    active_user = User.objects.filter(groups__name='active_user')
+    users = User.objects.all()  
+    
+    context = {'user_management', 'user_list'}
+            
+    return render(request, "home/user_list.html", {"u":disable_user, "active_user":active_user,"users":users,'segment' : context})
+
+def user_del(request, id_u):
+    user1_del = User.objects.get(id=id_u)
+    user1_del.delete()
+    return HttpResponseRedirect('/user_list')
+    
+def user_add(request, id_u):
+    
+    superuser_group = Group.objects.get(name='active_user')
+    superuser_group.user_set.add(id_u)
+    disable_group = Group.objects.get(name='disable')
+    disable_group.user_set.remove(id_u)
+   
+    return HttpResponseRedirect('/user_list')
+
+def user_sadd(request, id_u):
+
+    superuser_group = Group.objects.get(name='superuser')
+    superuser_group.user_set.add(id_u)
+    disable_group = Group.objects.get(name='disable')
+    disable_group.user_set.remove(id_u)
+    
+    return HttpResponseRedirect('/user_list')
+
 def record(request):
     records = Record.objects.all()
     context = {'main', 'record'}
@@ -28,6 +79,9 @@ def contacts(request):
     users = User.objects.all()
     context = {'main', 'contacts'}
     return render(request,'home/contacts.html', {'users': users, 'segment' : context})
+
+
+
 
 def alerts(request):
     alerts = Record.objects.all()
@@ -116,6 +170,7 @@ def alert_info(request):
 def automations(request):
     context = {'automations'}
     return render(request,'home/timeline.html', {'segment' : context})
+
 
 # @login_required(login_url="/login/")
 # def pages(request):

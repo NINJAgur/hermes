@@ -1,0 +1,170 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} ראשי {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+{% block content %}  
+
+<div class="main-page content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header" style="direction:rtl">
+        <div class="container-fluid">
+            <div class="row mb-2">
+            <div class="col-sm-1">
+                <h1 class="m-0 text-dark">דשבורד</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                <li class="breadcrumb-item"><a href="/">בית</a></li>
+                <li class="breadcrumb-item active">דשבורד</li>
+                </ol>
+            </div>
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <section class="content" style="direction: rtl">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="card-title">טבלת נרשמים</h3>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body p-0">
+                        <table class="table table-striped projects">
+                            <thead>
+                              <tr class="text-center">
+                                <th scope="col">מזהה</th>
+                                <th scope="col">משתמש</th>
+                                <th scope="col">אפשרויות הוספה</th>
+                                <th scope="col">מחיקה</th>
+                              </tr>
+                            </thead>
+                        
+                        <!-- <h1 align="center">User List</h1> -->
+                        <form method="post" action="#" class="form-group">
+                            {% csrf_token %}
+                        
+                            {% for user in u %}
+                                <tbody>
+                                    <tr class="text-center">
+                                        <th scope="row">{{user.id}}</th>
+                                        <td>{{user.username}}</td>
+                                        <td class="project-actions text-center">
+                                            <a class="btn btn-success btn-sm" href="{% url 'user_list-add' user.id  %}">
+                                                הוספת משתמש
+                                                <i class="fas fa-solid fa-user-plus"></i>
+                                                
+                                                
+                                            </a>
+                                            <a class="btn btn-primary btn-sm" href="{% url 'user_list-sadd' user.id  %}">
+                                                הוספת משתמש חזק
+                                                <i class="fas fa-sharp fa-solid fa-user-tie"></i>
+                                                
+                                                
+                                            </a>
+
+                                        </td>
+                                        <td class="project-actions text-center">
+                                            <a class="btn btn-danger btn-sm" href="{% url 'user_list-del' user.id  %}">
+                                                מחק
+                                                <i class="fas fa-trash"></i>
+                                                
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                            
+                            <div class="card-body p-0">
+                                <table class="table table-striped projects">
+                                    <thead>
+                                      <tr class="text-center">
+                                        <th scope="col">מזהה</th>
+                                        <th scope="col">משתמש</th>
+                                        <th scope="col">הרשאות</th>
+                                        <th scope="col">מחיקה</th>
+                                      </tr>
+                                    </thead>
+                            <!-- <h1 align="right">All active users:</h1> -->
+                            <div class="card-header">
+                                <h3 class="card-title">משתמשים פעילים</h3>
+                              </div>
+                            {% for user in users %}
+                                {% if user not in u %}
+                                    <tbody>
+                                        <tr class="text-center">
+                                        <th scope="row">{{user.id}}</th>
+                                        <td>{{user.username}}</td>
+                                        {% if user in active_user %}
+                                            <td>רגיל</td>
+                                        {% else %}
+                                            <td>מנהל</td>
+                                        {% endif %}
+                                        <td class="project-actions text-center">
+                                            <a class="btn btn-danger btn-sm" href="{% url 'user_list-del' user.id  %}">
+                                                מחק
+                                                <i class="fas fa-trash"></i>
+                                                
+                                            </a>
+                                       
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                {% endif %}
+                            {% endfor %}
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+{% endblock %}
+{% block javascripts %}
+
+  <!-- REQUIRED SCRIPTS -->
+  <!-- jQuery -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Bootstrap -->
+  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- overlayScrollbars -->
+  <script src="{{ ASSETS_ROOT }}/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  
+  <!-- ChartJS -->
+  <script src="{{ ASSETS_ROOT }}/plugins/chart.js/Chart.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/adminlte.min.js"></script>
+
+  <!-- PAGE PLUGINS -->
+  <!-- jQuery Mapael -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+  <script src="{{ ASSETS_ROOT }}/plugins/raphael/raphael.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{{ ASSETS_ROOT }}/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+{% endblock javascripts %}
+
