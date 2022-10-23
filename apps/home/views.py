@@ -117,7 +117,7 @@ def update_del(request, pk):
     return HttpResponseRedirect('/management-manuals')
 
 def manuals(request):
-    context = {'management', 'document'}
+    context = {'management', 'manuals'}
     manuals = Manual.objects.all()
 
     manualForm=forms.ManualForm()
