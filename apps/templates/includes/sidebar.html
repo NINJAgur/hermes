@@ -1,4 +1,4 @@
-  <!-- Main Sidebar Container -->
+ <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link text-center">
@@ -14,8 +14,8 @@
           <img src="{{ ASSETS_ROOT }}/img/admin.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="{% url 'register' %}" class="d-block">
-            {{ CustomUser.name }} - התנתקות
+          <a href="{% url 'login' %}" class="d-block">
+            {{ user.username }} - התנתקות
           </a>
         </div>
       </div>
@@ -69,31 +69,6 @@
           <li class="nav-item has-treeview {% if 'management' in segment %} menu-open {% endif %}">
             <a href="/" class="nav-link {% if 'management' in segment %} active {% endif %}">
               <p>
-                ניהול 
-                <i class="fas fa-angle-left right"></i>
-              </p>
-              <i class="nav-icon fas fa-th"></i>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/user_list" class="nav-link {% if 'alerts' in segment %} active {% endif %}">
-                  <p>ניהול משתמשים</p>
-                  <i class="fas fa-regular fa-users"></i>
-                  
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/management-document" class="nav-link {% if 'document' in segment %} active {% endif %}">
-                  <p>תיעוד תקלה</p>
-                  <i class="fas fa-thumbtack nav-icon"></i>
-                </a>
-              </li>
-
-            </ul>
-          </li>
-          <li class="nav-item has-treeview {% if 'management' in segment %} menu-open {% endif %}">
-            <a href="/" class="nav-link {% if 'management' in segment %} active {% endif %}">
-              <p>
                 ניהול תקלות
                 <i class="fas fa-angle-left right"></i>
               </p>
@@ -116,6 +91,24 @@
                 <a href="/management-info" class="nav-link {% if 'info' in segment %} active {% endif %}">
                   <p>נהלי תפעול</p>
                   <i class="fas fa-folder-open nav-icon"></i>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-treeview {% if 'user_management' in segment %} menu-open {% endif %}">
+            <a href="/" class="nav-link {% if 'user_management' in segment %} active {% endif %}">
+              <p>
+                ניהול 
+                <i class="fas fa-angle-left right"></i>
+              </p>
+              <i class="nav-icon fas fa-th"></i>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/user_list" class="nav-link {% if 'user_list' in segment %} active {% endif %}">
+                  <p>ניהול משתמשים</p>
+                  <i class="fas fa-regular fa-users"></i>
                 </a>
               </li>
             </ul>
@@ -144,4 +137,3 @@
       </nav>
     </div>
   </aside>
-  
