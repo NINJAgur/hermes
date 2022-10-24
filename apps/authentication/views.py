@@ -6,14 +6,10 @@ from .forms import LoginForm, SignUpForm
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 import os
-from .models import CustomUser
-
 
 def login_view(request):
     msg = None
     form = LoginForm(request.POST or None)
-    letter = ('t', 's', 'o', 'h')
-    users = CustomUser.objects.all()
     
     if request.method == "POST":
         if request.POST.get("login"):
@@ -29,7 +25,7 @@ def login_view(request):
                     return render(request, "home/main.html", {})
 
                 else:
-                    msg = "The User is waiting for admin approval"
+                    # msg = "The User is waiting for admin approval"
                     return render(request, "accounts/login.html", {"form":form, "msg":msg})
 
             else:
@@ -42,7 +38,6 @@ def login_view(request):
 
 
 def register_user(request):
-
     msg = None
     form = SignUpForm(request.POST)
     letter = ('t', 's', 'o', 'h')
@@ -58,7 +53,7 @@ def register_user(request):
                 disable_group.user_set.add(user)
                 
         else:
-            msg = "In valid user"
+            msg = "Invalid user"
 
     return render(request, "accounts/register.html", {"form":form, "msg": msg})
 

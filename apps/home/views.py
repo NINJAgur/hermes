@@ -1,21 +1,15 @@
-from faulthandler import disable
+from datetime import datetime
+import os
 from socket import INADDR_MAX_LOCAL_GROUP
-from tokenize import group
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
-from django.template import loader
-from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
-from apps.authentication import models
 from django.contrib import messages
 
-from . models import Record, Update
+from . models import Manual, Record, Update
 from .  import forms
-
-
-
 
 @login_required(login_url="/login/")
 def index(request):
@@ -28,29 +22,18 @@ def index(request):
     return render(request,'home/main.html', dict)
 
 def user_list(request):
-    for x in User.objects.all():
-        if x in User.objects.filter(groups__name='disable'):
-            print(str(x) + " is disabeld")
-
-        if x in User.objects.filter(groups__name='active_user'):
-            print(str(x) + " is active")
-
-        if x in User.objects.filter(groups__name='superuser'):
-            print(str(x) + " is superuser")
-        
-
+    users = User.objects.all()  
     disable_user = User.objects.filter(groups__name='disable')
     active_user = User.objects.filter(groups__name='active_user')
-    users = User.objects.all()  
     
-    context = {'user_management', 'user_list'}
+    context = {'users', 'user-list'}
             
-    return render(request, "home/user_list.html", {"u":disable_user, "active_user":active_user,"users":users,'segment' : context})
+    return render(request, "home/user-list.html", {"u":disable_user, "active_user":active_user,"users":users,'segment' : context})
 
 def user_del(request, id_u):
-    user1_del = User.objects.get(id=id_u)
-    user1_del.delete()
-    return HttpResponseRedirect('/user_list')
+    user_del = User.objects.get(id=id_u)
+    user_del.delete()
+    return HttpResponseRedirect('/user-list')
     
 def user_add(request, id_u):
     
@@ -59,7 +42,7 @@ def user_add(request, id_u):
     disable_group = Group.objects.get(name='disable')
     disable_group.user_set.remove(id_u)
    
-    return HttpResponseRedirect('/user_list')
+    return HttpResponseRedirect('/user-list')
 
 def user_sadd(request, id_u):
 
@@ -68,7 +51,7 @@ def user_sadd(request, id_u):
     disable_group = Group.objects.get(name='disable')
     disable_group.user_set.remove(id_u)
     
-    return HttpResponseRedirect('/user_list')
+    return HttpResponseRedirect('/users-list')
 
 def record(request):
     records = Record.objects.all()
@@ -77,11 +60,8 @@ def record(request):
 
 def contacts(request):
     users = User.objects.all()
-    context = {'main', 'contacts'}
+    context = {'users', 'contacts'}
     return render(request,'home/contacts.html', {'users': users, 'segment' : context})
-
-
-
 
 def alerts(request):
     alerts = Record.objects.all()
@@ -163,9 +143,36 @@ def update_del(request, pk, id):
     u.delete()
     return HttpResponseRedirect('/management-view/'+str(id))
 
-def alert_info(request):
-    context = {'management', 'info'}
-    return render(request, 'home/widgets.html', {'segment' : context})
+def manual_del(request, pk):
+    m = Manual.objects.get(id=pk)
+    os.remove("apps/static/assets/upload-manuals/"+m.filename())
+    m.delete()
+    return HttpResponseRedirect('/management-manuals')
+
+def manuals(request):
+    context = {'management', 'manuals'}
+    manuals = Manual.objects.all()
+
+    manualForm=forms.ManualForm()
+    if request.method=='POST':
+        manualForm=forms.ManualForm(request.POST, request.FILES)
+        if manualForm.is_valid():
+            manual=manualForm.save(commit=False)
+            manual.created_by = request.user
+            manual.save()      
+        else:
+            messages.info(request, 'שגיאה בהזנת הנתונים')
+            print("form is invalid")
+        return HttpResponseRedirect('/management-manuals')
+
+    dict={
+        'segment' : context,
+        'manuals': manuals,
+        'manualForm': manualForm
+    }
+
+    return render(request,'home/manuals.html', dict)
+
 
 def automations(request):
     context = {'automations'}

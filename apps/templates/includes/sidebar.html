@@ -48,19 +48,13 @@
               <li class="nav-item">
                 <a href="/" class="nav-link {% if 'dashboard' in segment %} active {% endif %}">
                   <p>דשבורד</p>
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <i class="fas fa-tachometer-alt nav-icon"></i>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/primary-record" class="nav-link {% if 'record' in segment %} active {% endif %}">
                   <p>ארכיון התראות</p>
                   <i class="far fa-clock nav-icon"></i>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/primary-contacts" class="nav-link {% if 'contacts' in segment %} active {% endif %}">
-                  <p>אנשי קשר</p>
-                  <i class="fas fa-users nav-icon"></i>
                 </a>
               </li>
             </ul>
@@ -88,7 +82,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/management-info" class="nav-link {% if 'info' in segment %} active {% endif %}">
+                <a href="/management-manuals" class="nav-link {% if 'manuals' in segment %} active {% endif %}">
                   <p>נהלי תפעול</p>
                   <i class="fas fa-folder-open nav-icon"></i>
                 </a>
@@ -96,19 +90,25 @@
             </ul>
           </li>
 
-          <li class="nav-item has-treeview {% if 'user_management' in segment %} menu-open {% endif %}">
-            <a href="/" class="nav-link {% if 'user_management' in segment %} active {% endif %}">
+          <li class="nav-item has-treeview {% if 'users' in segment %} menu-open {% endif %}">
+            <a href="/" class="nav-link {% if 'users' in segment %} active {% endif %}">
               <p>
-                ניהול 
+                משתמשים 
                 <i class="fas fa-angle-left right"></i>
               </p>
-              <i class="nav-icon fas fa-th"></i>
+              <i class="fas fa-user"></i>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/user_list" class="nav-link {% if 'user_list' in segment %} active {% endif %}">
-                  <p>ניהול משתמשים</p>
-                  <i class="fas fa-regular fa-users"></i>
+                <a href="/users-contacts" class="nav-link {% if 'contacts' in segment %} active {% endif %}">
+                  <p>אנשי קשר</p>
+                  <i class="fas fa-users nav-icon"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/users-list" class="nav-link {% if 'user-list' in segment %} active {% endif %}">
+                  <p>ניהול הרשאות</p>
+                  <i class="fas fa-user-plus nav-icon"></i>
                 </a>
               </li>
             </ul>
