@@ -1,51 +1,59 @@
 # Create your views here.
+from faulthandler import disable
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, SignUpForm
-
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
+import os
 
 def login_view(request):
-    form = LoginForm(request.POST or None)
-
     msg = None
-
+    form = LoginForm(request.POST or None)
+    
     if request.method == "POST":
+        if request.POST.get("login"):
+            user_name = request.POST.get("username")
+            current_user = os.getlogin()
+            
+            if User.objects.filter(username=user_name).exists():
+                user_a = User.objects.get(username=user_name)
+                valid = user_a.groups.filter(name="disable").exists()
 
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect("/")
+                if not valid:
+                    login(request, user_a)
+                    return render(request, "home/main.html", {})
+
+                else:
+                    # msg = "The User is waiting for admin approval"
+                    return render(request, "accounts/login.html", {"form":form, "msg":msg})
+
             else:
-                msg = 'Invalid credentials'
-        else:
-            msg = 'Error validating the form'
+                return redirect("/register")
 
-    return render(request, "accounts/login.html", {"form": form, "msg": msg})
+    else:
+        return render(request, "accounts/login.html", {"form":form, "msg":msg})
+
+
 
 
 def register_user(request):
     msg = None
-    success = False
-
+    form = SignUpForm(request.POST)
+    letter = ('t', 's', 'o', 'h')
+    username = request.POST.get("username")
     if request.method == "POST":
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get("username")
-            raw_password = form.cleaned_data.get("password1")
-            user = authenticate(username=username, password=raw_password)
-
-            msg = 'User created - please <a href="/login">login</a>.'
-            success = True
-
-            # return redirect("/login/")
-
+        if len(username) == 8 and username.startswith(letter):
+            if User.objects.filter(username=username).exists():
+                msg = " The user already exists"
+            else:
+                user = User(username=username)
+                user.save()
+                disable_group = Group.objects.get(name='disable')
+                disable_group.user_set.add(user)
+                
         else:
-            msg = 'Form is not valid'
-    else:
-        form = SignUpForm()
+            msg = "Invalid user"
 
-    return render(request, "accounts/register.html", {"form": form, "msg": msg, "success": success})
+    return render(request, "accounts/register.html", {"form":form, "msg": msg})
+

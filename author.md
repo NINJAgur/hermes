@@ -1,2 +1,3 @@
-BENJAMIN GOLDSHMIDT'S BRANCH 
-FUCK YOU GIT
+===================
+PROJECT INFORMATION
+===================

@@ -1,10 +1,11 @@
 from datetime import datetime
 import os
-from turtle import update
+from socket import INADDR_MAX_LOCAL_GROUP
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from django.contrib import messages
 
 from . models import Manual, Record, Update
@@ -20,6 +21,38 @@ def index(request):
 
     return render(request,'home/main.html', dict)
 
+def user_list(request):
+    users = User.objects.all()  
+    disable_user = User.objects.filter(groups__name='disable')
+    active_user = User.objects.filter(groups__name='active_user')
+    
+    context = {'users', 'user-list'}
+            
+    return render(request, "home/user-list.html", {"u":disable_user, "active_user":active_user,"users":users,'segment' : context})
+
+def user_del(request, id_u):
+    user_del = User.objects.get(id=id_u)
+    user_del.delete()
+    return HttpResponseRedirect('/user-list')
+    
+def user_add(request, id_u):
+    
+    superuser_group = Group.objects.get(name='active_user')
+    superuser_group.user_set.add(id_u)
+    disable_group = Group.objects.get(name='disable')
+    disable_group.user_set.remove(id_u)
+   
+    return HttpResponseRedirect('/user-list')
+
+def user_sadd(request, id_u):
+
+    superuser_group = Group.objects.get(name='superuser')
+    superuser_group.user_set.add(id_u)
+    disable_group = Group.objects.get(name='disable')
+    disable_group.user_set.remove(id_u)
+    
+    return HttpResponseRedirect('/users-list')
+
 def record(request):
     records = Record.objects.all()
     context = {'main', 'record'}
@@ -27,7 +60,7 @@ def record(request):
 
 def contacts(request):
     users = User.objects.all()
-    context = {'main', 'contacts'}
+    context = {'users', 'contacts'}
     return render(request,'home/contacts.html', {'users': users, 'segment' : context})
 
 def alerts(request):
@@ -110,7 +143,7 @@ def update_del(request, pk, id):
     u.delete()
     return HttpResponseRedirect('/management-view/'+str(id))
 
-def update_del(request, pk):
+def manual_del(request, pk):
     m = Manual.objects.get(id=pk)
     os.remove("apps/static/assets/upload-manuals/"+m.filename())
     m.delete()
@@ -128,7 +161,6 @@ def manuals(request):
             manual.created_by = request.user
             manual.save()      
         else:
-            print(manualForm.errors)
             messages.info(request, 'שגיאה בהזנת הנתונים')
             print("form is invalid")
         return HttpResponseRedirect('/management-manuals')
@@ -145,6 +177,7 @@ def manuals(request):
 def automations(request):
     context = {'automations'}
     return render(request,'home/timeline.html', {'segment' : context})
+
 
 # @login_required(login_url="/login/")
 # def pages(request):
