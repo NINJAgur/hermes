@@ -18,19 +18,124 @@
 {% endblock stylesheets %}
 
 {% block content %}
-<div class="p-10 lg:p-20 text-center">
-    <h1 class="text-3xl lg:text-6xl text-white">Rooms</h1>
-</div>
 
-<div class="w-full flex flex-wrap items-center">
-    {% for room in rooms %}
-        <div class="w-full lg:w-1/4 px-3 py-3">
-            <div class="p-4 bg-white shadow rounded-xl text-center">
-                <h2 class="mb-5 text-2xl font-semibold">{{ room.name }}</h2>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header" style="direction:rtl">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-3">
+            <h1 class="m-0 text-dark">תפריט צ'אט</h1>
+          </div>
+          <div class="col-sm-3">
+            <ol class="breadcrumb float-sm-left">
+              <li class="breadcrumb-item"><a href="/">בית</a></li>
+              <li class="breadcrumb-item active">תפריט מבצעי</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
 
-                <a href="{% url 'room' room.slug %}" class="px-5 py-3 block rounded-xl text-white bg-teal-600 hover:bg-teal-700">Join</a>
+    <!-- Main content -->
+    <section class="content">
+        <!-- DIRECT CHAT -->
+        <div class="card direct-chat direct-chat-warning">
+            <div class="row">
+                <div class="col-md-9 border-right">
+                    <div class="card-header">
+                        <h3 class="card-title">שם שיחה</h3>
+                      </div>
+                    <div class="direct-chat-messages" style="height:620px">
+                        {% for m in messages %}
+                            {% if m.user != request.user %}
+                                <div class="direct-chat-msg">
+                                    <div class="direct-chat-infos clearfix">
+                                        <span class="direct-chat-name float-left">{{ m.user.username }}</span>
+                                        <span class="direct-chat-timestamp float-right">{{m.date_added}}</span>
+                                    </div>
+                                    <!-- /.direct-chat-infos -->
+                                    <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
+                                    <!-- /.direct-chat-img -->
+                                    <div class="direct-chat-text">
+                                        {{ m.content }}
+                                    </div>
+                                    <!-- /.direct-chat-text -->
+                                </div>
+                                <!-- /.direct-chat-msg -->
+                            {% else %}
+                                <!-- Message to the right -->
+                                <div class="direct-chat-msg right">
+                                    <div class="direct-chat-infos clearfix">
+                                        <span class="direct-chat-name float-right">{{ m.user.username }}</span>
+                                        <span class="direct-chat-timestamp float-left">{{m.date_added}}</span>
+                                    </div>
+                                    <!-- /.direct-chat-infos -->
+                                    <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
+                                    <!-- /.direct-chat-img -->
+                                    <div class="direct-chat-text">
+                                        {{m.content}}
+                                    </div>
+                                    <!-- /.direct-chat-text -->
+                                </div> 
+                                <!-- /.direct-chat-msg -->
+                            {% endif %}
+                    {% endfor %}    
+                    </div>
+                    <div class="card-footer">
+                        <form action="." method="post">
+                            {%csrf_token%}
+                            <div class="input-group">
+                                <span class="input-group-append">
+                                    <button id="chat-message-submit" type="button" class="btn btn-warning">שלח</button>
+                                </span>
+                                <input type="text" name="content" placeholder="הקלד הודעה..." class="form-control" id="chat-message-input">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card-footer-->
+                </div>
+                <div class="col-md-3">
+                    <div class="card-header">
+                        <h3 class="card-title">שיחות</h3>
+                    </div>
+                    <div class="direct-chat-contacts" style="height:auto;position:inherit;transform:none;">
+                        <ul class="contacts-list" id="roomslist">
+                            {% for room in rooms %}
+                            <li>
+                                <a href="{% url 'rooms_id' room.slug %}">
+                                    <div class="contacts-list-info">
+                                        <span class="contacts-list-name">
+                                            <span class="contacts-list-msg">{{room.lastMessage}}</span>
+                                            &nbsp;
+                                            {{room.slug}}
+                                            &nbsp;
+                                            <small class="contacts-list-date">{{room.updated}}</small>
+                                        </span>
+                                    </div>
+                                    <!-- /.contacts-list-info -->
+                                </a>
+                                <a href="{% url 'room' room.slug %}">
+                                    <div class="contacts-list-info">
+                                        <span class="contacts-list-name">
+                                            <i class="fas fa-comments float-left"></i>
+                                        </span>
+                                    </div>
+                                </a>
+                                
+                            </li>
+                            {% endfor %}
+                            <!-- End Contact Item -->
+                        </ul>
+                    <!-- /.contacts-list -->
+                    </div>
+                </div>
             </div>
         </div>
-    {% endfor %}
-</div>
+          <!--/.direct-chat -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
 {% endblock %}

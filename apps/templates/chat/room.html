@@ -18,35 +18,97 @@
 {% endblock stylesheets %}
 
 {% block content %}
-<div class="p-10 lg:p-20 text-center">
-    <h1 class="text-3xl lg:text-6xl text-white">{{ room.name }}</h1>
-</div>
-
-<div class="lg:w-2/4 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
-    <div class="chat-messages space-y-3" id="chat-messages">
-        {% for m in messages %}<b>{{ m.user.username }}</b>: {{ m.content }}<br>{% endfor %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header" style="direction:rtl">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-3">
+            <h1 class="m-0 text-dark">צ'אט עם {{room.slug}}</h1>
+          </div>
+          <div class="col-sm-3">
+            <ol class="breadcrumb float-sm-left">
+              <li class="breadcrumb-item"><a href="/">בית</a></li>
+              <li class="breadcrumb-item"><a href="/chat/">צ'אט מבצעי</a></li>
+              <li class="breadcrumb-item active">{{room.slug}}</li>
+            </ol>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
 
-<div class="lg:w-2/4 mt-6 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
-    <form method="post" action="." class="flex">
-        <input type="text" name="content" class="flex-1 mr-3" placeholder="Your message..." id="chat-message-input">
-
-        <button 
-            class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
-            id="chat-message-submit"
-        >Submit</button>
-    </form>
+    <section class="content">
+        <!-- DIRECT CHAT -->
+        <div class="card direct-chat direct-chat-warning">
+            <div class="card-header">
+                <h3 class="card-title">{{ room.name }}</h3>
+            </div>
+            <div class="direct-chat-messages" style="height:620px" id="chat-messages">
+                {% for m in messages %}
+                    {% if m.user != request.user %}
+                        <div class="direct-chat-msg">
+                            <div class="direct-chat-infos clearfix">
+                                <span class="direct-chat-name float-left">{{ m.user.username }}</span>
+                                <span class="direct-chat-timestamp float-right">{{m.date_added}}</span>
+                            </div>
+                            <!-- /.direct-chat-infos -->
+                            <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
+                            <!-- /.direct-chat-img -->
+                            <div class="direct-chat-text">
+                                {{ m.content }}
+                            </div>
+                            <!-- /.direct-chat-text -->
+                        </div>
+                        <!-- /.direct-chat-msg -->
+                    {% else %}
+                        <!-- Message to the right -->
+                        <div class="direct-chat-msg right">
+                            <div class="direct-chat-infos clearfix">
+                                <span class="direct-chat-name float-right">{{ m.user.username }}</span>
+                                <span class="direct-chat-timestamp float-left">{{m.date_added}}</span>
+                            </div>
+                            <!-- /.direct-chat-infos -->
+                            <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
+                            <!-- /.direct-chat-img -->
+                            <div class="direct-chat-text">
+                                {{m.content}}
+                            </div>
+                            <!-- /.direct-chat-text -->
+                        </div> 
+                        <!-- /.direct-chat-msg -->
+                    {% endif %}
+                {% endfor %}                
+            </div>
+            <div class="card-footer">
+                <form action="." method="post">
+                    {%csrf_token%}
+                    <div class="input-group">
+                        <span class="input-group-append">
+                            <button id="chat-message-submit" type="button" class="btn btn-warning">שלח</button>
+                        </span>
+                        <input type="text" name="content" placeholder="הקלד הודעה..." class="form-control" id="chat-message-input">
+                    </div>
+                </form>
+            </div>
+            <!-- /.card-footer-->
+        </div>
+        <!--/.direct-chat -->
+    </section>
+    <!-- /.content -->
 </div>
+<!-- /.content-wrapper -->
 {% endblock %}
 
-{% block scripts %}
+{% block javascripts %}
 {{ room.slug|json_script:"json-roomname" }}
 {{ request.user.username|json_script:"json-username" }}
 
 <script>
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
     const userName = JSON.parse(document.getElementById('json-username').textContent);
+    var currentDate = new Date().toDateString();
+    currentDate = cleanDate(currentDate);
+    console.log(currentDate)
     const chatSocket = new WebSocket(
         'ws://'
         + window.location.host
@@ -63,16 +125,21 @@
         const data = JSON.parse(e.data);
 
         if (data.message) {
-            document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
-        } else {
-            alert('The message was empty!')
+            let html = '<div class="direct-chat-msg right">';
+            html +=    '<div class="direct-chat-infos clearfix">';
+            html +=     '<span class="direct-chat-name float-right">'+ data.username + '</span>'
+            html +=     '<span class="direct-chat-timestamp float-left">' + currentDate + '</span></div>'
+            html +=     '<img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">'
+            html +=     '<div class="direct-chat-text">'+ data.message + '</div></div>'
+
+            document.querySelector('#chat-messages').innerHTML += html;
         }
 
         scrollToBottom();
     };
 
-    document.querySelector('#chat-message-input').focus();
-    document.querySelector('#chat-message-input').onkeyup = function(e) {
+    document.querySelector('#chat-message-input').onkeydown = function(e) {
+        console.log(e)
         if (e.keyCode === 13) {
             document.querySelector('#chat-message-submit').click();
         }
@@ -83,7 +150,12 @@
 
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
-
+        
+        if (message == ''){
+            alert('לא ניתן לשלוח הודעה ריקה!')
+            return
+        }    
+        
         console.log({
             'message': message,
             'username': userName,
@@ -100,6 +172,13 @@
 
         return false
     };
+    function cleanDate(val){
+        val = val.substring(3, currentDate.length);
+        val = val.replace('4',',');
+        val = val.replace('0','4');
+
+        return val
+    }
 
     /**
     * A function for finding the messages element, and scroll to the bottom of it.

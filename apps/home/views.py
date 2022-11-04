@@ -176,7 +176,7 @@ def manuals(request):
 
 def automations(request):
     context = {'automations'}
-    return render(request,'home/timeline.html', {'segment' : context})
+    return render(request,'home/automations.html', {'segment' : context})
 
 
 # @login_required(login_url="/login/")
