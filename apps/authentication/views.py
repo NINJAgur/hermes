@@ -22,7 +22,8 @@ def login_view(request):
 
                 if not valid:
                     login(request, user_a)
-                    return render(request, "home/main.html", {})
+                    context = {'main', 'dashboard'}
+                    return render(request, "home/main.html", {"segment": context})
 
                 else:
                     # msg = "The User is waiting for admin approval"
