@@ -87,6 +87,7 @@
                             <button id="chat-message-submit" type="button" class="btn btn-warning">שלח</button>
                         </span>
                         <input type="text" name="content" placeholder="הקלד הודעה..." class="form-control" id="chat-message-input">
+                        <input style="display: none"> <!-- I dunno why but it fixed it -->
                     </div>
                 </form>
             </div>
@@ -138,6 +139,7 @@
         scrollToBottom();
     };
 
+    console.log(document.querySelector('#chat-message-input'))
     document.querySelector('#chat-message-input').onkeydown = function(e) {
         console.log(e)
         if (e.keyCode === 13) {
@@ -147,11 +149,10 @@
 
     document.querySelector('#chat-message-submit').onclick = function(e) {
         e.preventDefault()
-
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
         
-        if (message == ''){
+        if (!message){
             alert('לא ניתן לשלוח הודעה ריקה!')
             return
         }    
