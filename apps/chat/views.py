@@ -15,7 +15,7 @@ def rooms_id(request, slug):
     rooms = Room.objects.all()
     current = Room.objects.get(slug=slug)
     messages = Message.objects.filter(room=current)[0:25]
-    return render(request, 'chat/rooms.html', {'rooms': rooms, 'messages': messages, 'segment': context})
+    return render(request, 'chat/rooms.html', {'room': current, 'rooms': rooms, 'messages': messages, 'segment': context})
 
 @login_required
 def room(request, slug):

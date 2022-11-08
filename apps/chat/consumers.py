@@ -61,5 +61,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         room = Room.objects.get(slug=room)
 
         Message.objects.create(user=user, room=room, content=message)
+        if len(message) > 8 :
+            message = message[0:7] + "..."
+
         room.lastMessage = message
         room.save()
