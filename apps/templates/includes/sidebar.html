@@ -59,6 +59,42 @@
               </li>
             </ul>
           </li>
+
+          <li class="nav-item has-treeview {% if 'management' in segment %} menu-open {% endif %}">
+            <a href="/" class="nav-link {% if 'management' in segment %} active {% endif %}">
+              <p>
+                שרתים
+                <i class="fas fa-angle-left right"></i>
+              </p>
+              <i class="fas fa-server nav-icon"></i>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/" class="nav-link {% if 'alerts' in segment %} active {% endif %}">
+                  <p>שרת א</p>
+                  <i class="fas fa-check-square nav-icon"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/" class="nav-link {% if 'document' in segment %} active {% endif %}">
+                  <p>שרת ב</p>
+                  <i class="fas fa-check-square nav-icon"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/" class="nav-link {% if 'manuals' in segment %} active {% endif %}">
+                  <p>שרת ג</p>
+                  <i class="fas fa-check-square nav-icon"></i>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/" class="nav-link {% if 'manuals' in segment %} active {% endif %}">
+                  <p>שרת ד</p>
+                  <i class="fas fa-check-square nav-icon"></i>
+                </a>
+              </li>
+            </ul>
+          </li>
           
           <li class="nav-item has-treeview {% if 'management' in segment %} menu-open {% endif %}">
             <a href="/" class="nav-link {% if 'management' in segment %} active {% endif %}">

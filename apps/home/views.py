@@ -1,14 +1,14 @@
-from datetime import datetime
+import datetime
 import os
-from socket import INADDR_MAX_LOCAL_GROUP
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib import messages
 
 from . models import Manual, Record, Update
+from .. chat.models import Room , Message
 from .  import forms
 
 @login_required(login_url="/login/")
@@ -17,8 +17,13 @@ def index(request):
         'segment' : {'main', 'dashboard'},
         'lastestRecords'  : Record.objects.all().order_by('-id')[:6],
         'lastestUsers'   : User.objects.all().order_by('-id')[:8],
+        'lastestAlerts'   : Record.objects.filter(date_start=datetime.date.today()),
+        'latestMessages' : Room.objects.filter(updated=datetime.date.today()),
+        'latestUserSignUp' : User.objects.filter(date_joined=datetime.date.today()),
+        'rooms' : Room.objects.all(),
+        'messages' : Message.objects.filter(room=Room.objects.latest('updated'))[0:25],
+        'totalNotif' : Record.objects.filter(date_start=datetime.date.today()).count() + User.objects.filter(date_joined=datetime.date.today()).count()
     }
-
     return render(request,'home/main.html', dict)
 
 def user_list(request):
@@ -122,7 +127,7 @@ def alert_view(request, pk):
             update=updateForm.save(commit=False)
             record=Record.objects.get(id=request.POST.get('record'))
             update.record = record
-            update.published = datetime.now()
+            update.published = datetime.datetime.now()
             update.published_by = request.user
             update.save()      
         else:
