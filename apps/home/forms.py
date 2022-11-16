@@ -3,7 +3,29 @@ from . models import Manual, Record, Update
 from django.contrib.auth.models import User
 from django import forms
 from django.core.validators import FileExtensionValidator
+from django.contrib.auth.forms import UserCreationForm
 
+
+class EditUSerForm(UserCreationForm):
+    phone_number = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "מספר טלפון",
+                "class": "form-control"
+            }
+        ))
+    office = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "משרד",
+                "class": "form-control"
+            }
+        ))
+
+    class Meta:
+        model = User
+        fields = ('phone_number', 'office')
+        
 class DateInput(forms.DateInput):
     input_type = 'date'
 
