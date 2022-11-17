@@ -42,7 +42,6 @@ def user_del(request, id_u):
     return HttpResponseRedirect('/users-list')
     
 def user_add(request, id_u):
-    
     superuser_group = Group.objects.get(name='active_user')
     superuser_group.user_set.add(id_u)
     disable_group = Group.objects.get(name='disable')
@@ -51,7 +50,6 @@ def user_add(request, id_u):
     return HttpResponseRedirect('/users-list')
 
 def user_sadd(request, id_u):
-
     superuser_group = Group.objects.get(name='superuser')
     superuser_group.user_set.add(id_u)
     disable_group = Group.objects.get(name='disable')
@@ -66,22 +64,26 @@ def record(request):
 
 def contacts(request):
     users = UserHermes.objects.all()
-    
     context = {'users', 'contacts'}
     return render(request,'home/contacts.html', {'users': users, 'segment' : context})
 
 def contacts_edit(request, user_n):
-    form = EditUSerForm
+    form = EditUSerForm()
     context = {'users', 'contacts'}
     user = User.objects.get(username=user_n)
-    phone_number = request.POST.get("phone_number")
-    office = request.POST.get("office")
-
-    if request.method == "POST":
-        if request.POST.get("edit_save"):
+    if request.method=='POST':
+        form=forms.EditUSerForm(request.POST)
+        if form.is_valid():
+            phone_number = request.POST.get("phone_number")
+            office = request.POST.get("office")
             UserHermes.objects.filter(user=user).update(phone_number=phone_number,office=office)
-            return redirect('users-contacts')
-            
+            messages.info(request, '!עדכון הנתונים בוצעה בהצלחה')
+        else:
+            print(form.errors)
+            print("form is invalid")
+            messages.info(request, 'שגיאה בעדכון הנתונים')
+        return HttpResponseRedirect('/users-contacts')
+    
     return render(request,'home/contacts-edit.html', {"form":form, 'segment' : context ,"user":user})
 
 def alerts(request):
@@ -91,7 +93,6 @@ def alerts(request):
 
 def alert_document(request):
     context = {'management', 'document'}
-
     recordForm=forms.RecordForm()
     if request.method=='POST':
         recordForm=forms.RecordForm(request.POST)

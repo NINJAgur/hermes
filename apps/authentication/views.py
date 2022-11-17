@@ -37,8 +37,6 @@ def login_view(request):
         return render(request, "accounts/login.html", {"form":form, "msg":msg})
 
 
-
-
 def register_user(request):
     msg = None
     form = SignUpForm(request.POST)
@@ -48,10 +46,9 @@ def register_user(request):
     office = request.POST.get("office")
 
     if request.method == "POST":
-        if len(username) == 8 and username.startswith(letter):
+        if len(username) == 8 and username.startswith(letter) and form.is_valid():
             if User.objects.filter(username=username).exists():
-                msg = " The user already exists"
-
+                msg = 'המשתמש קיים במערכת'
             else:
                 user = User(username=username)
                 user.save()
@@ -66,5 +63,4 @@ def register_user(request):
     return render(request, "accounts/register.html", {"form":form, "msg": msg})
 
 def waiting_page(request):
-
     return render(request, "accounts/waiting_page.html")

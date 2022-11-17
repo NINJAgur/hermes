@@ -1,30 +1,13 @@
-from dataclasses import fields
 from . models import Manual, Record, Update
 from django.contrib.auth.models import User
 from django import forms
-from django.core.validators import FileExtensionValidator
-from django.contrib.auth.forms import UserCreationForm
+from apps.authentication.models import UserHermes
 
-
-class EditUSerForm(UserCreationForm):
-    phone_number = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "מספר טלפון",
-                "class": "form-control"
-            }
-        ))
-    office = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                "placeholder": "משרד",
-                "class": "form-control"
-            }
-        ))
-
+class EditUSerForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ('phone_number', 'office')
+        model = UserHermes
+        fields = ['phone_number', 'office']
+
         
 class DateInput(forms.DateInput):
     input_type = 'date'
