@@ -2,14 +2,15 @@ import datetime
 import os
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib import messages
-
 from . models import Manual, Record, Update
 from .. chat.models import Room , Message
 from .  import forms
+from .forms import EditUSerForm
+from apps.authentication.models import UserHermes
 
 @login_required(login_url="/login/")
 def index(request):
@@ -38,7 +39,7 @@ def user_list(request):
 def user_del(request, id_u):
     user_del = User.objects.get(id=id_u)
     user_del.delete()
-    return HttpResponseRedirect('/user-list')
+    return HttpResponseRedirect('/users-list')
     
 def user_add(request, id_u):
     
@@ -47,7 +48,7 @@ def user_add(request, id_u):
     disable_group = Group.objects.get(name='disable')
     disable_group.user_set.remove(id_u)
    
-    return HttpResponseRedirect('/user-list')
+    return HttpResponseRedirect('/users-list')
 
 def user_sadd(request, id_u):
 
@@ -64,9 +65,24 @@ def record(request):
     return render(request,'home/records.html', {'records': records, 'segment' : context})
 
 def contacts(request):
-    users = User.objects.all()
+    users = UserHermes.objects.all()
+    
     context = {'users', 'contacts'}
     return render(request,'home/contacts.html', {'users': users, 'segment' : context})
+
+def contacts_edit(request, user_n):
+    form = EditUSerForm
+    context = {'users', 'contacts'}
+    user = User.objects.get(username=user_n)
+    phone_number = request.POST.get("phone_number")
+    office = request.POST.get("office")
+
+    if request.method == "POST":
+        if request.POST.get("edit_save"):
+            UserHermes.objects.filter(user=user).update(phone_number=phone_number,office=office)
+            return redirect('users-contacts')
+            
+    return render(request,'home/contacts-edit.html', {"form":form, 'segment' : context ,"user":user})
 
 def alerts(request):
     alerts = Record.objects.all()

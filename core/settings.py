@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'channels',
     'apps.authentication',
+    'phonenumber_field',
     'apps.home',
     'apps.chat'
 ]

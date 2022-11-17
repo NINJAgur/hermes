@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, SignUpForm
 from django.contrib.auth.models import User
+from .models import UserHermes
 from django.contrib.auth.models import Group
 import os
 
@@ -43,18 +44,27 @@ def register_user(request):
     form = SignUpForm(request.POST)
     letter = ('t', 's', 'o', 'h')
     username = request.POST.get("username")
+    phone_number = request.POST.get("phone_number")
+    office = request.POST.get("office")
+
     if request.method == "POST":
         if len(username) == 8 and username.startswith(letter):
             if User.objects.filter(username=username).exists():
                 msg = " The user already exists"
+
             else:
                 user = User(username=username)
                 user.save()
+                huser = UserHermes(user=user,phone_number=phone_number,office=office)
+                huser.save()
                 disable_group = Group.objects.get(name='disable')
                 disable_group.user_set.add(user)
-                
+                return redirect('waiting_page')
         else:
             msg = "Invalid user"
 
     return render(request, "accounts/register.html", {"form":form, "msg": msg})
 
+def waiting_page(request):
+
+    return render(request, "accounts/waiting_page.html")
