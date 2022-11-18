@@ -62,8 +62,8 @@
             </ul>
           </li>
 
-          <li class="nav-item has-treeview {% if 'management' in segment %} menu-open {% endif %}">
-            <a href="/" class="nav-link {% if 'management' in segment %} active {% endif %}">
+          <li class="nav-item has-treeview {% if 'servers' in segment %} menu-open {% endif %}">
+            <a href="/" class="nav-link {% if 'servers' in segment %} active {% endif %}">
               <p>
                 שרתים
                 <i class="fas fa-angle-left right"></i>
@@ -129,7 +129,6 @@
           </li>
 
           {% if request.user|has_group:"superuser" %} 
-
             <li class="nav-item has-treeview {% if 'users' in segment %} menu-open {% endif %}">
               <a href="/" class="nav-link {% if 'users' in segment %} active {% endif %}">
                 <p>
@@ -160,7 +159,7 @@
             <a href="/chat/" class="nav-link {% if 'chat' in segment %} active {% endif %}">
               <p>
                 צ'אט מבצעי
-                <span class="right badge badge-danger">!</span>
+                <i class="fas fa-angle-left right"></i>
               </p>
               <i class="fas fa-comment nav-icon"></i>
             </a>
@@ -170,7 +169,7 @@
             <a href="/automations" class="nav-link {% if 'automations' in segment %} active {% endif %}">
               <p>
                 אוטומציות
-                <span class="right badge badge-danger">!</span>
+                <i class="fas fa-angle-left right"></i>
               </p>
               <i class="nav-icon fas fa-robot"></i>
             </a>

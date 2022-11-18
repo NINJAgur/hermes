@@ -1,3 +1,4 @@
+{% load auth_extras %}
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -11,9 +12,9 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown">
           <i class="far fa-comments"></i>
-          <span class="badge badge-danger navbar-badge">{{ latestMessages.count }}</span>
+          <span class="badge badge-danger navbar-badge">{{ request.user|get_messages }}</span>
         </a>
-        {% if latestMessages.count > 0 %}
+        {% if request.user|get_messages > 0 %}
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             {% for m in latestMessages %}
               <a class="dropdown-item">
@@ -43,20 +44,20 @@
         <li class="nav-item dropdown">
           <a class="nav-link" data-toggle="dropdown" >
             <i class="far fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">{{ totalNotif }}</span>
+            <span class="badge badge-warning navbar-badge">{{ request.user|get_notifications }}</span>
           </a>
-          {% if totalNotif.count > 0 %}
+          {% if request.user|get_notifications > 0 %}
 
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-item dropdown-header">התראות חדשות : {{ totalNotif }} </span>
+            <span class="dropdown-item dropdown-header">התראות חדשות : {{ request.user|get_notifications }} </span>
             <div class="dropdown-divider"></div>
-            <a  class="dropdown-item">
-              <i class="fas fa-users mr-1"></i>משתמשים חדשים : {{ latestUserSignUp.count }}
+            <a href="/users-contacts" class="dropdown-item">
+              <i class="fas fa-users mr-1"></i>משתמשים חדשים : {{ request.user|get_users }}
               {% comment %} <span class="float-right text-muted text-sm">לפני 2 ימים</span> {% endcomment %}
             </a>
             <div class="dropdown-divider"></div>
-            <a  class="dropdown-item">
-              <i class="fas fa-file mr-2"></i> תקלות : {{ lastestAlerts.count }}
+            <a href="/management-alerts" class="dropdown-item">
+              <i class="fas fa-file mr-2"></i> תקלות : {{ request.user|get_alerts }}
               {% comment %} <span class="float-right text-muted text-sm">לפני 1 שעות ו-3 דקות</span> {% endcomment %}
             </a>
           </div>

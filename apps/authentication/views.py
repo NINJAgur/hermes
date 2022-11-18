@@ -1,12 +1,12 @@
 # Create your views here.
-from faulthandler import disable
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from .forms import LoginForm, SignUpForm
-from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User, Group
+
 from .models import UserHermes
-from django.contrib.auth.models import Group
+from .forms import LoginForm, SignUpForm
 import os
+import datetime
 
 def login_view(request):
     msg = None
@@ -16,18 +16,17 @@ def login_view(request):
         if request.POST.get("login"):
             user_name = request.POST.get("username")
             current_user = os.getlogin()
-            
-            if User.objects.filter(username=user_name).exists():
-                user_a = User.objects.get(username=user_name)
-                valid = user_a.groups.filter(name="disable").exists()
+            user = authenticate(username=user_name, password="@hermes510")
+
+            if user is not None:
+                valid = user.groups.filter(name="disable").exists()
 
                 if not valid:
-                    login(request, user_a)
-                    context = {'main', 'dashboard'}
-                    return render(request, "home/main.html", {"segment": context})
+                    login(request, user)
+                    return redirect('/')
 
                 else:
-                    # msg = "The User is waiting for admin approval"
+                    msg = "המשתמש מחכה לאישור מנהל"
                     return render(request, "accounts/login.html", {"form":form, "msg":msg})
 
             else:
@@ -50,7 +49,7 @@ def register_user(request):
             if User.objects.filter(username=username).exists():
                 msg = 'המשתמש קיים במערכת'
             else:
-                user = User(username=username)
+                user = User(username=username, password="@hermes510", date_joined=datetime.date.today())
                 user.save()
                 huser = UserHermes(user=user,phone_number=phone_number,office=office)
                 huser.save()

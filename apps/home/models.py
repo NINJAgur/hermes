@@ -85,9 +85,3 @@ class Manual(models.Model):
 
     def filename(self):
         return os.path.basename(self.man_file.name)
-
-# class UpdateManual(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     record = models.ForeignKey(Manual, related_name='update_manual', on_delete=models.CASCADE)
-#     published_by = models.ForeignKey(User, on_delete=models.CASCADE)
-#     upload = models.FileField()

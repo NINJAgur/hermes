@@ -1,4 +1,5 @@
 {% extends "layouts/base.html" %}
+{% load auth_extras %}
 
 {% block title %} אנשי קשר {% endblock %} 
 
@@ -49,7 +50,8 @@
           <div class="row d-flex align-items-stretch">
               {% for u in users %}
                 <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
-                  <div class="card bg-light">
+                  <div {% if u.user|has_group:"disable" %} class="card" style="box-shadow:0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(200 0 0 / 100%)"
+                       {% else %} class="card bg-light" {% endif %} >
                     <div class="card-header text-muted border-bottom-0">
                       חייל סדיר
                     </div>
