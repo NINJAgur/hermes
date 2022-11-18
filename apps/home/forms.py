@@ -1,9 +1,14 @@
-from dataclasses import fields
 from . models import Manual, Record, Update
 from django.contrib.auth.models import User
 from django import forms
-from django.core.validators import FileExtensionValidator
+from apps.authentication.models import UserHermes
 
+class EditUSerForm(forms.ModelForm):
+    class Meta:
+        model = UserHermes
+        fields = ['phone_number', 'office']
+
+        
 class DateInput(forms.DateInput):
     input_type = 'date'
 

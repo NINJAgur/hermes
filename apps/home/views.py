@@ -1,15 +1,17 @@
-from datetime import datetime
+import datetime
 import os
-from socket import INADDR_MAX_LOCAL_GROUP
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib import messages
-
 from . models import Manual, Record, Update
-from .  import forms
+from . import forms
+from apps.chat.models import Room , Message
+from apps.authentication.models import UserHermes
+
 
 @login_required(login_url="/login/")
 def index(request):
@@ -17,6 +19,8 @@ def index(request):
         'segment' : {'main', 'dashboard'},
         'lastestRecords'  : Record.objects.all().order_by('-id')[:6],
         'lastestUsers'   : User.objects.all().order_by('-id')[:8],
+        'rooms' : Room.objects.all(),
+        'messages' : Message.objects.filter(room=Room.objects.latest('updated'))[0:25],
     }
 
     return render(request,'home/main.html', dict)
@@ -33,19 +37,17 @@ def user_list(request):
 def user_del(request, id_u):
     user_del = User.objects.get(id=id_u)
     user_del.delete()
-    return HttpResponseRedirect('/user-list')
+    return HttpResponseRedirect('/users-list')
     
 def user_add(request, id_u):
-    
     superuser_group = Group.objects.get(name='active_user')
     superuser_group.user_set.add(id_u)
     disable_group = Group.objects.get(name='disable')
     disable_group.user_set.remove(id_u)
    
-    return HttpResponseRedirect('/user-list')
+    return HttpResponseRedirect('/users-list')
 
 def user_sadd(request, id_u):
-
     superuser_group = Group.objects.get(name='superuser')
     superuser_group.user_set.add(id_u)
     disable_group = Group.objects.get(name='disable')
@@ -59,9 +61,28 @@ def record(request):
     return render(request,'home/records.html', {'records': records, 'segment' : context})
 
 def contacts(request):
-    users = User.objects.all()
+    users = UserHermes.objects.all()
     context = {'users', 'contacts'}
     return render(request,'home/contacts.html', {'users': users, 'segment' : context})
+
+def contacts_edit(request, user_n):
+    form = forms.EditUSerForm()
+    context = {'users', 'contacts'}
+    user = User.objects.get(username=user_n)
+    if request.method=='POST':
+        form=forms.EditUSerForm(request.POST)
+        if form.is_valid():
+            phone_number = request.POST.get("phone_number")
+            office = request.POST.get("office")
+            UserHermes.objects.filter(user=user).update(phone_number=phone_number,office=office)
+            messages.info(request, '!עדכון הנתונים בוצעה בהצלחה')
+        else:
+            print(form.errors)
+            print("form is invalid")
+            messages.info(request, 'שגיאה בעדכון הנתונים')
+        return HttpResponseRedirect('/users-contacts')
+    
+    return render(request,'home/contacts-edit.html', {"form":form, 'segment' : context ,"user":user})
 
 def alerts(request):
     alerts = Record.objects.all()
@@ -70,7 +91,6 @@ def alerts(request):
 
 def alert_document(request):
     context = {'management', 'document'}
-
     recordForm=forms.RecordForm()
     if request.method=='POST':
         recordForm=forms.RecordForm(request.POST)
@@ -122,7 +142,7 @@ def alert_view(request, pk):
             update=updateForm.save(commit=False)
             record=Record.objects.get(id=request.POST.get('record'))
             update.record = record
-            update.published = datetime.now()
+            update.published = datetime.datetime.now()
             update.published_by = request.user
             update.save()      
         else:
@@ -178,12 +198,7 @@ def automations(request):
     context = {'automations'}
     return render(request,'home/automations.html', {'segment' : context})
 
-
-# @login_required(login_url="/login/")
 # def pages(request):
-#     context = {}
-#     # All resource paths end in .html.
-#     # Pick out the html file name from the url. And load that template.
 #     try:
 
 #         load_template = request.path.split('/')[-1]

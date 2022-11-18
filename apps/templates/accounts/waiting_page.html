@@ -1,0 +1,67 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} הירשמות {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} register-page {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="register-box">
+
+    <div class="login-logo text-center">
+      <span class="brand-text font-weight-light">Hermes</span>
+      <img src="{{ ASSETS_ROOT }}/img/hermes-logo.png" alt="Hermes Logo" class="brand-image" style="opacity: .8; max-height:55px">
+    </div>
+
+    <div class="card">
+      <div class="card-body register-card-body">
+        <h4 class="login-box-msg">
+            <span>
+              '{{user.username}}' המשתמש
+            </span>
+            <span>
+               מחכה לאישור מנהל 
+            </span>          
+        </h4>
+        <h2 class="login-box-msg">
+            <i class="fas fa-hourglass-start"></i>
+        </h2>
+
+        <div class="text-center">
+          יש כבר משתמש? <a href="{% url 'login' %}" class="text-center">התחבר</a>
+          <br />
+          <br />
+          פותח על ידי צוות יוסטון <b>Hermes</b>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+{% endblock javascripts %}
+

@@ -145,79 +145,81 @@
 
 <script>
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
-    const userName = JSON.parse(document.getElementById('json-username').textContent);
-    var currentDate = new Date().toDateString();
-    currentDate = cleanDate(currentDate);
-    console.log(currentDate)
-    const chatSocket = new WebSocket(
-        'ws://'
-        + window.location.host
-        + '/ms/'
-        + roomName
-        + '/'
-    );
-    console.log(chatSocket)
-    chatSocket.onclose = function(e) {
-        console.log('onclose')
-    }
 
-    chatSocket.onmessage = function(e) {
-        const data = JSON.parse(e.data);
-
-        if (data.message) {
-            let html = '<div class="direct-chat-msg right">';
-            html +=    '<div class="direct-chat-infos clearfix">';
-            html +=     '<span class="direct-chat-name float-right">'+ data.username + '</span>'
-            html +=     '<span class="direct-chat-timestamp float-left">' + currentDate + '</span></div>'
-            html +=     '<img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">'
-            html +=     '<div class="direct-chat-text">'+ data.message + '</div></div>'
-
-            document.querySelector('#chat-messages').innerHTML += html;
+    if (roomName != ''){
+        const userName = JSON.parse(document.getElementById('json-username').textContent);
+        var currentDate = new Date().toDateString();
+        currentDate = cleanDate(currentDate);
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ms/'
+            + roomName
+            + '/'
+        );
+        console.log(chatSocket)
+        chatSocket.onclose = function(e) {
+            console.log('onclose')
         }
 
-        scrollToBottom();
-    };
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
 
-    document.querySelector('#chat-message-input').onkeydown = function(e) {
-        console.log(e)
-        if (e.keyCode === 13) {
-            document.querySelector('#chat-message-submit').click();
+            if (data.message) {
+                let html = '<div class="direct-chat-msg right">';
+                html +=    '<div class="direct-chat-infos clearfix">';
+                html +=     '<span class="direct-chat-name float-right">'+ data.username + '</span>'
+                html +=     '<span class="direct-chat-timestamp float-left">' + currentDate + '</span></div>'
+                html +=     '<img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">'
+                html +=     '<div class="direct-chat-text">'+ data.message + '</div></div>'
+
+                document.querySelector('#chat-messages').innerHTML += html;
+            }
+
+            scrollToBottom();
+        };
+
+        document.querySelector('#chat-message-input').onkeydown = function(e) {
+            console.log(e)
+            if (e.keyCode === 13) {
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            e.preventDefault()
+
+            const messageInputDom = document.querySelector('#chat-message-input');
+            const message = messageInputDom.value;
+            
+            if (message == ''){
+                alert('לא ניתן לשלוח הודעה ריקה!')
+                return
+            }    
+            
+            console.log({
+                'message': message,
+                'username': userName,
+                'room': roomName
+            })
+
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'username': userName,
+                'room': roomName
+            }));
+
+            messageInputDom.value = '';
+
+            return false
+        };
+        function cleanDate(val){
+            val = val.substring(3, currentDate.length);
+            val = val.replace('4',',');
+            val = val.replace('0','4');
+
+            return val
         }
-    };
-
-    document.querySelector('#chat-message-submit').onclick = function(e) {
-        e.preventDefault()
-
-        const messageInputDom = document.querySelector('#chat-message-input');
-        const message = messageInputDom.value;
-        
-        if (message == ''){
-            alert('לא ניתן לשלוח הודעה ריקה!')
-            return
-        }    
-        
-        console.log({
-            'message': message,
-            'username': userName,
-            'room': roomName
-        })
-
-        chatSocket.send(JSON.stringify({
-            'message': message,
-            'username': userName,
-            'room': roomName
-        }));
-
-        messageInputDom.value = '';
-
-        return false
-    };
-    function cleanDate(val){
-        val = val.substring(3, currentDate.length);
-        val = val.replace('4',',');
-        val = val.replace('0','4');
-
-        return val
     }
 
     /**
@@ -226,6 +228,7 @@
     function scrollToBottom() {
         let objDiv = document.getElementById("chat-messages");
         objDiv.scrollTop = objDiv.scrollHeight;
+        console.log("yes")
     }
 
     // Add this below the function to trigger the scroll on load.

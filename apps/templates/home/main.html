@@ -299,9 +299,9 @@
         <div class="row">
           <div class="col-md-4">
             <!-- DIRECT CHAT -->
-            <div class="card direct-chat direct-chat-warning">
+            <div class="card direct-chat direct-chat-warning" style="height: 360px">
               <div class="card-header">
-                <h3 class="card-title">צ'אט פיקודי</h3>
+                <h3 class="card-title">צ'אט מבצעי</h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="remove">
@@ -313,197 +313,88 @@
                   <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
                     <i class="fas fa-comments"></i>
                   </button>
-                  <span title="3 New Messages" class="badge badge-warning">3</span>    
                 </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <!-- Conversations are loaded here -->
-                <div class="direct-chat-messages">
-                  <!-- Message. Default to the left -->
-                  <div class="direct-chat-msg">
-                    <div class="direct-chat-infos clearfix">
-                      <span class="direct-chat-name float-left">עידן גורין</span>
-                      <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                    </div>
-                    <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
-                    <!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      טקסט
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <!-- /.direct-chat-msg -->
-
-                  <!-- Message to the right -->
-                  <div class="direct-chat-msg right">
-                    <div class="direct-chat-infos clearfix">
-                      <span class="direct-chat-name float-right">שיראל אלי</span>
-                      <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                    </div>
-                    <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
-                    <!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      טקסט
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <!-- /.direct-chat-msg -->
-
-                  <!-- Message. Default to the left -->
-                  <div class="direct-chat-msg">
-                    <div class="direct-chat-infos clearfix">
-                      <span class="direct-chat-name float-left">עידן גורין</span>
-                      <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
-                    </div>
-                    <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
-                    <!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      טקסט
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <!-- /.direct-chat-msg -->
-
-                  <!-- Message to the right -->
-                  <div class="direct-chat-msg right">
-                    <div class="direct-chat-infos clearfix">
-                      <span class="direct-chat-name float-right">שיראל אלי</span>
-                      <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
-                    </div>
-                    <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
-                    <!-- /.direct-chat-img -->
-                    <div class="direct-chat-text">
-                      טקסט
-                    </div>
-                    <!-- /.direct-chat-text -->
-                  </div>
-                  <!-- /.direct-chat-msg -->
-
+                <div class="direct-chat-messages" id="chat-messages">
+                  {% for m in messages %}
+                    {% if m.user != request.user %}
+                        <div class="direct-chat-msg">
+                            <div class="direct-chat-infos clearfix">
+                                <span class="direct-chat-name float-left">{{ m.user.username }}</span>
+                                <span class="direct-chat-timestamp float-right">{{m.date_added}}</span>
+                            </div>
+                            <!-- /.direct-chat-infos -->
+                            <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
+                            <!-- /.direct-chat-img -->
+                            <div class="direct-chat-text">
+                                {{ m.content }}
+                            </div>
+                            <!-- /.direct-chat-text -->
+                        </div>
+                        <!-- /.direct-chat-msg -->
+                    {% else %}
+                        <!-- Message to the right -->
+                        <div class="direct-chat-msg right">
+                            <div class="direct-chat-infos clearfix">
+                                <span class="direct-chat-name float-right">{{ m.user.username }}</span>
+                                <span class="direct-chat-timestamp float-left">{{m.date_added}}</span>
+                            </div>
+                            <!-- /.direct-chat-infos -->
+                            <img class="direct-chat-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="message user image">
+                            <!-- /.direct-chat-img -->
+                            <div class="direct-chat-text">
+                                {{m.content}}
+                            </div>
+                            <!-- /.direct-chat-text -->
+                        </div> 
+                        <!-- /.direct-chat-msg -->
+                    {% endif %}
+                  {% endfor %}    
                 </div>
                 <!--/.direct-chat-messages-->
 
                 <!-- Contacts are loaded here -->
                 <div class="direct-chat-contacts">
                   <ul class="contacts-list">
+                    {% for room in rooms %}
                     <li>
-                      <a href="/">
-                        <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
-
-                        <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            אסף עובד
-                            <small class="contacts-list-date float-right">2/28/2015</small>
-                          </span>
-                          <span class="contacts-list-msg">טקסט</span>
-                        </div>
-                        <!-- /.contacts-list-info -->
-                      </a>
+                        <a href="{% url 'rooms_id' room.slug %}">
+                            <div class="contacts-list-info">
+                                <span class="contacts-list-name">
+                                    <span class="contacts-list-msg">{{room.lastMessage}}</span>
+                                    &nbsp;
+                                    {{room.slug}}
+                                    &nbsp;
+                                    <small class="contacts-list-date">{{room.updated}}</small>
+                                </span>
+                            </div>
+                            <!-- /.contacts-list-info -->
+                        </a>
+                        <a href="{% url 'room' room.slug %}">
+                            <div class="contacts-list-info">
+                                <span class="contacts-list-name">
+                                    <i class="fas fa-comments float-left"></i>
+                                </span>
+                            </div>
+                        </a> 
                     </li>
-                    <!-- End Contact Item -->
-                    <li>
-                      <a href="/">
-                        <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
-
-                        <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            רועי גלדווסר
-                            <small class="contacts-list-date float-right">2/23/2015</small>
-                          </span>
-                          <span class="contacts-list-msg">טקסט</span>
-                        </div>
-                        <!-- /.contacts-list-info -->
-                      </a>
-                    </li>
-                    <!-- End Contact Item -->
-                    <li>
-                      <a href="/">
-                        <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
-
-                        <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            תמר אברמוב
-                            <small class="contacts-list-date float-right">2/20/2015</small>
-                          </span>
-                          <span class="contacts-list-msg">טקסט</span>
-                        </div>
-                        <!-- /.contacts-list-info -->
-                      </a>
-                    </li>
-                    <!-- End Contact Item -->
-                    <li>
-                      <a href="/">
-                        <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
-
-                        <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            אופיר יצחקוב
-                            <small class="contacts-list-date float-right">2/10/2015</small>
-                          </span>
-                          <span class="contacts-list-msg">טקסט</span>
-                        </div>
-                        <!-- /.contacts-list-info -->
-                      </a>
-                    </li>
-                    <!-- End Contact Item -->
-                    <li>
-                      <a href="/">
-                        <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
-
-                        <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            יעקב סולומון
-                            <small class="contacts-list-date float-right">1/27/2015</small>
-                          </span>
-                          <span class="contacts-list-msg">טקסט</span>
-                        </div>
-                        <!-- /.contacts-list-info -->
-                      </a>
-                    </li>
-                    <!-- End Contact Item -->
-                    <li>
-                      <a href="/">
-                        <img class="contacts-list-img" src="{{ ASSETS_ROOT }}/img/user.png" alt="User Avatar">
-
-                        <div class="contacts-list-info">
-                          <span class="contacts-list-name">
-                            דניאל וקאר
-                            <small class="contacts-list-date float-right">1/4/2015</small>
-                          </span>
-                          <span class="contacts-list-msg">טקסט</span>
-                        </div>
-                        <!-- /.contacts-list-info -->
-                      </a>
-                    </li>
+                    {% endfor %}
                     <!-- End Contact Item -->
                   </ul>
                   <!-- /.contacts-list -->
                 </div>
                 <!-- /.direct-chat-pane -->
               </div>
-              <!-- /.card-body -->
-              <div class="card-footer">
-                <form action="/" method="post">
-                  <div class="input-group">
-                    <span class="input-group-append">
-                      <button type="button" class="btn btn-warning">שלח</button>
-                    </span>
-                    <input type="text" name="message" placeholder="הקלד הודעה..." class="form-control">
-                  </div>
-                </form>
-              </div>
-              <!-- /.card-footer-->
             </div>
             <!--/.direct-chat -->
           </div>
 
           <div class="col-md-4">
             <!-- USERS LIST -->
-            <div class="card">
+            <div class="card" style="height: 360px">
               <div class="card-header">
                 <h3 class="card-title">משתמשים אחרונים</h3>
                 <div class="card-tools">
@@ -513,9 +404,9 @@
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
                   </button>
-                  <button type="button" class="btn btn-tool" title="Users" >
+                  <a href="/users-contacts" class="btn btn-tool" title="Users" >
                     <i class="fas fa-users"></i>
-                  </button>
+                  </a>
                 </div>
               </div>
               <!-- /.card-header -->
@@ -524,7 +415,7 @@
                   {% for u in lastestUsers %}
                   <li>
                     <img src="{{ ASSETS_ROOT }}/img/user.png" alt="User Image">
-                    <a class="users-list-name" href="/">{{u.username}}</a>
+                    <a class="users-list-name" href="/contacts-edit/{{u.username}}">{{u.username}}</a>
                     <span class="users-list-date">{{u.date_joined}}</span>
                   </li>
                   {% endfor %}
@@ -538,10 +429,10 @@
 
           <div class="col-md-4">
               <!-- Calendar -->
-              <div class="card">
+              <div class="card" style="height: 360px">
                 <div class="card-header border-transparent">
                   <h3 class="card-title">אירועים</h3>
-    
+
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="remove">
                       <i class="fas fa-times"></i>
@@ -549,6 +440,9 @@
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                       <i class="fas fa-minus"></i>
                     </button>
+                    <a href="/management-alerts" class="btn btn-tool" title="Alets" >
+                      <i class="fas fa-bolt"></i>
+                    </a>
                   </div>
                 </div>
                 <!-- /.card-header -->
@@ -717,6 +611,19 @@
       options: donutOptions
     })
   })
+
+  /**
+    * A function for finding the messages element, and scroll to the bottom of it.
+    */
+  function scrollToBottom() {
+    let objDiv = document.getElementById("chat-messages");
+    objDiv.scrollTop = objDiv.scrollHeight;
+    console.log("yes")
+  }
+
+  // Add this below the function to trigger the scroll on load.
+  scrollToBottom();
+
 </script>
 
 {% endblock javascripts %}

@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.index, name='home'),
     path('primary-record', views.record, name='primary-record'),
     path('users-contacts', views.contacts, name='users-contacts'),
+    path('contacts-edit/<str:user_n>', views.contacts_edit, name='contacts-edit'),
     path('users-list/', views.user_list, name='user-list'),
     path('users-del/<int:id_u>', views.user_del, name='user-list-del'),
     path('users-add/<int:id_u>', views.user_add, name='user-list-add'),

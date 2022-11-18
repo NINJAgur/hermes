@@ -1,7 +1,5 @@
-
-
 from django.contrib import admin
-from django.urls import path, include  # add this
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),          # Django admin route
@@ -9,3 +7,5 @@ urlpatterns = [
     path("", include("apps.home.urls")),
     path("chat/", include("apps.chat.urls"))
 ]
+
+handler404="apps.helpers.views.error404"

@@ -65,4 +65,5 @@ class ChatConsumer(AsyncWebsocketConsumer):
             message = message[0:7] + "..."
 
         room.lastMessage = message
+        room.updateDate()
         room.save()
