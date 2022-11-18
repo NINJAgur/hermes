@@ -2,7 +2,7 @@ import os, environ
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, True)
+    DEBUG=(bool, False)
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -37,9 +37,10 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'channels',
     'apps.authentication',
-    'phonenumber_field',
     'apps.home',
-    'apps.chat'
+    'apps.chat',
+    'apps.helpers',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -137,11 +138,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_ROOT = os.path.join(CORE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(CORE_DIR, 'apps/static')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(CORE_DIR, 'apps/static'),
+    os.path.join(CORE_DIR, 'staticfiles'),
 )
 

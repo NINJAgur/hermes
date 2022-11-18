@@ -415,7 +415,7 @@
                   {% for u in lastestUsers %}
                   <li>
                     <img src="{{ ASSETS_ROOT }}/img/user.png" alt="User Image">
-                    <a class="users-list-name" href="/">{{u.username}}</a>
+                    <a class="users-list-name" href="/contacts-edit/{{u.username}}">{{u.username}}</a>
                     <span class="users-list-date">{{u.date_joined}}</span>
                   </li>
                   {% endfor %}

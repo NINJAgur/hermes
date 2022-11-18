@@ -30,17 +30,23 @@
 
     <div class="card">
       <div class="card-body register-card-body">
-        <p class="login-box-msg">
+        <h4 class="login-box-msg">
             <span>
-                 מחכה לאישור מנהל {{user.username}} 
+              '{{user.username}}' המשתמש
+            </span>
+            <span>
+               מחכה לאישור מנהל 
             </span>          
-        </p>
-        
-        <br /><br />
+        </h4>
+        <h2 class="login-box-msg">
+            <i class="fas fa-hourglass-start"></i>
+        </h2>
+
         <div class="text-center">
-            <br />
-            <br />
-            פותח על ידי צוות יוסטון <b>Hermes</b>
+          יש כבר משתמש? <a href="{% url 'login' %}" class="text-center">התחבר</a>
+          <br />
+          <br />
+          פותח על ידי צוות יוסטון <b>Hermes</b>
         </div>
 
       </div>

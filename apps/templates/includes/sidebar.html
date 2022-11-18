@@ -1,3 +1,5 @@
+{% load auth_extras %}
+
  <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -60,8 +62,8 @@
             </ul>
           </li>
 
-          <li class="nav-item has-treeview {% if 'management' in segment %} menu-open {% endif %}">
-            <a href="/" class="nav-link {% if 'management' in segment %} active {% endif %}">
+          <li class="nav-item has-treeview {% if 'servers' in segment %} menu-open {% endif %}">
+            <a href="/" class="nav-link {% if 'servers' in segment %} active {% endif %}">
               <p>
                 שרתים
                 <i class="fas fa-angle-left right"></i>
@@ -126,35 +128,38 @@
             </ul>
           </li>
 
-          <li class="nav-item has-treeview {% if 'users' in segment %} menu-open {% endif %}">
-            <a href="/" class="nav-link {% if 'users' in segment %} active {% endif %}">
-              <p>
-                משתמשים 
-                <i class="fas fa-angle-left right"></i>
-              </p>
-              <i class="fas fa-user nav-icon"></i>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/users-contacts" class="nav-link {% if 'contacts' in segment %} active {% endif %}">
-                  <p>אנשי קשר</p>
-                  <i class="fas fa-users nav-icon"></i>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/users-list" class="nav-link {% if 'user-list' in segment %} active {% endif %}">
-                  <p>ניהול הרשאות</p>
-                  <i class="fas fa-user-plus nav-icon"></i>
-                </a>
-              </li>
-            </ul>
-          </li>
+          {% if request.user|has_group:"superuser" %} 
+            <li class="nav-item has-treeview {% if 'users' in segment %} menu-open {% endif %}">
+              <a href="/" class="nav-link {% if 'users' in segment %} active {% endif %}">
+                <p>
+                  משתמשים 
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+                <i class="fas fa-user nav-icon"></i>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/users-contacts" class="nav-link {% if 'contacts' in segment %} active {% endif %}">
+                    <p>אנשי קשר</p>
+                    <i class="fas fa-users nav-icon"></i>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/users-list" class="nav-link {% if 'user-list' in segment %} active {% endif %}">
+                    <p>ניהול הרשאות</p>
+                    <i class="fas fa-user-plus nav-icon"></i>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+          {% endif %}
 
           <li class="nav-item">
             <a href="/chat/" class="nav-link {% if 'chat' in segment %} active {% endif %}">
               <p>
                 צ'אט מבצעי
-                <span class="right badge badge-danger">!</span>
+                <i class="fas fa-angle-left right"></i>
               </p>
               <i class="fas fa-comment nav-icon"></i>
             </a>
@@ -164,7 +169,7 @@
             <a href="/automations" class="nav-link {% if 'automations' in segment %} active {% endif %}">
               <p>
                 אוטומציות
-                <span class="right badge badge-danger">!</span>
+                <i class="fas fa-angle-left right"></i>
               </p>
               <i class="nav-icon fas fa-robot"></i>
             </a>

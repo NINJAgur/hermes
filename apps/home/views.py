@@ -1,16 +1,17 @@
 import datetime
 import os
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib import messages
 from . models import Manual, Record, Update
-from .. chat.models import Room , Message
-from .  import forms
-from .forms import EditUSerForm
+from . import forms
+from apps.chat.models import Room , Message
 from apps.authentication.models import UserHermes
+
 
 @login_required(login_url="/login/")
 def index(request):
@@ -18,13 +19,10 @@ def index(request):
         'segment' : {'main', 'dashboard'},
         'lastestRecords'  : Record.objects.all().order_by('-id')[:6],
         'lastestUsers'   : User.objects.all().order_by('-id')[:8],
-        'lastestAlerts'   : Record.objects.filter(date_start=datetime.date.today()),
-        'latestMessages' : Room.objects.filter(updated=datetime.date.today()),
-        'latestUserSignUp' : User.objects.filter(date_joined=datetime.date.today()),
         'rooms' : Room.objects.all(),
         'messages' : Message.objects.filter(room=Room.objects.latest('updated'))[0:25],
-        'totalNotif' : Record.objects.filter(date_start=datetime.date.today()).count() + User.objects.filter(date_joined=datetime.date.today()).count()
     }
+
     return render(request,'home/main.html', dict)
 
 def user_list(request):
@@ -42,7 +40,6 @@ def user_del(request, id_u):
     return HttpResponseRedirect('/users-list')
     
 def user_add(request, id_u):
-    
     superuser_group = Group.objects.get(name='active_user')
     superuser_group.user_set.add(id_u)
     disable_group = Group.objects.get(name='disable')
@@ -51,7 +48,6 @@ def user_add(request, id_u):
     return HttpResponseRedirect('/users-list')
 
 def user_sadd(request, id_u):
-
     superuser_group = Group.objects.get(name='superuser')
     superuser_group.user_set.add(id_u)
     disable_group = Group.objects.get(name='disable')
@@ -66,22 +62,26 @@ def record(request):
 
 def contacts(request):
     users = UserHermes.objects.all()
-    
     context = {'users', 'contacts'}
     return render(request,'home/contacts.html', {'users': users, 'segment' : context})
 
 def contacts_edit(request, user_n):
-    form = EditUSerForm
+    form = forms.EditUSerForm()
     context = {'users', 'contacts'}
     user = User.objects.get(username=user_n)
-    phone_number = request.POST.get("phone_number")
-    office = request.POST.get("office")
-
-    if request.method == "POST":
-        if request.POST.get("edit_save"):
+    if request.method=='POST':
+        form=forms.EditUSerForm(request.POST)
+        if form.is_valid():
+            phone_number = request.POST.get("phone_number")
+            office = request.POST.get("office")
             UserHermes.objects.filter(user=user).update(phone_number=phone_number,office=office)
-            return redirect('users-contacts')
-            
+            messages.info(request, '!עדכון הנתונים בוצעה בהצלחה')
+        else:
+            print(form.errors)
+            print("form is invalid")
+            messages.info(request, 'שגיאה בעדכון הנתונים')
+        return HttpResponseRedirect('/users-contacts')
+    
     return render(request,'home/contacts-edit.html', {"form":form, 'segment' : context ,"user":user})
 
 def alerts(request):
@@ -91,7 +91,6 @@ def alerts(request):
 
 def alert_document(request):
     context = {'management', 'document'}
-
     recordForm=forms.RecordForm()
     if request.method=='POST':
         recordForm=forms.RecordForm(request.POST)
@@ -199,12 +198,7 @@ def automations(request):
     context = {'automations'}
     return render(request,'home/automations.html', {'segment' : context})
 
-
-# @login_required(login_url="/login/")
 # def pages(request):
-#     context = {}
-#     # All resource paths end in .html.
-#     # Pick out the html file name from the url. And load that template.
 #     try:
 
 #         load_template = request.path.split('/')[-1]
