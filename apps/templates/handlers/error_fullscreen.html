@@ -1,0 +1,67 @@
+{% extends "layouts/base-fullscreen.html" %}
+
+{% block title %} שגיאה 123 {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} login-page {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="login-box">
+
+    <div class="login-logo">
+        <span class="brand-text font-weight-light">Hermes</span>
+        <img src="{{ ASSETS_ROOT }}/img/hermes-logo.png" alt="Hermes Logo" class="brand-image" style="opacity: .8; max-height:55px">
+    </div>
+    
+    <!-- /.login-logo -->
+    <div class="card">
+
+      <div class="card-body login-card-body">
+
+        <h5 class="login-box-msg">
+            [ERROR MSG] - [NUM] שגיאה 
+        </h5>
+        <p class="login-box-msg">
+          אנא פנה למנהל המערכת - <a href="/" class="text-center">בית</a>
+        </p>
+
+        <br />
+        <div class="text-center">
+          אין משתמש? <a href="{% url 'register' %}" class="text-center">הירשמות</a>
+          <br />
+          <br />
+          פותח על ידי צוות יוסטון <b>Hermes</b>
+        </div>
+
+      </div>
+      <!-- /.login-card-body -->
+    </div>
+
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- jQuery -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+{% endblock javascripts %}

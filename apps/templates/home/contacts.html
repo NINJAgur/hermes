@@ -49,40 +49,44 @@
         <div class="card-body pb-0" style="height:720px; overflow-y:auto">
           <div class="row d-flex align-items-stretch">
               {% for u in users %}
-                <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
-                  <div {% if u.user|has_group:"disable" %} class="card" style="box-shadow:0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(200 0 0 / 100%)"
-                       {% else %} class="card bg-light" {% endif %} >
-                    <div class="card-header text-muted border-bottom-0">
-                      חייל סדיר
-                    </div>
-                    <div class="card-body pt-0">
-                      <div class="row">
-                        <div class="col-7">
-                          <h2 class="lead"><b>{{u.user}}</b></h2>
-                          <p class="text-muted text-sm"> תפקיד : מש"ק יוסטון </p>
-                          <ul class="ml-4 mb-0 fa-ul text-muted">
-                            <li class="small"><span class="fa-li"><i class="fas fa-pennant"></i></span> {{u.id}} : מזהה</li>
-                            <li class="small"><span class="fa-li"><i class="fas fa-pennant"></i></span> {{u.office}} : יחידה</li>
-                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>{{u.phone_number}} : טלפון צבאי</li>
-                          </ul>
-                        </div>
-                        <div class="col-5 text-center">
-                          <img src="{{ ASSETS_ROOT }}/img/user.png" alt="user-avatar" class="img-circle img-fluid">
+                {% if request.user != u.user %} 
+                  <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+                    <div {% if u.user|has_group:"disable" %} class="card" style="box-shadow:0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(200 0 0 / 100%)"
+                        {% else %} class="card bg-light" {% endif %} >
+                      <div class="card-header text-muted border-bottom-0">
+                        חייל סדיר
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <div class="col-7">
+                            <h2 class="lead"><b>{{u.user}}</b></h2>
+                            <p class="text-muted text-sm"> תפקיד : מש"ק יוסטון </p>
+                            <ul class="ml-4 mb-0 fa-ul text-muted">
+                              <li class="small"><span class="fa-li"><i class="fas fa-pennant"></i></span> {{u.id}} : מזהה</li>
+                              <li class="small"><span class="fa-li"><i class="fas fa-pennant"></i></span> {{u.office}} : יחידה</li>
+                              <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>{{u.phone_number}} : טלפון צבאי</li>
+                            </ul>
+                          </div>
+                          <div class="col-5 text-center">
+                            <img src="{{ ASSETS_ROOT }}/img/user.png" alt="user-avatar" class="img-circle img-fluid">
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="card-footer">
-                      <div class="text-right">
-                        <a href="#" class="btn btn-sm bg-teal">
-                          <i class="fas fa-comments"></i>
-                        </a>
-                        <a href="{% url 'contacts-edit' u.user  %}" class="btn btn-sm btn-primary">
-                          <i class="fas fa-user"></i> עריכת משתמש
-                        </a>
+                      <div class="card-footer">
+                        <div class="text-right">
+                          <a href="{% url 'get-chat' request.user|get_private_room:u.user.username %}" class="btn btn-sm bg-teal">
+                            <i class="fas fa-comments"></i>
+                          </a>
+                          {% if request.user|has_group:"superuser" %} 
+                          <a href="{% url 'contacts-edit' u.user  %}" class="btn btn-sm btn-primary">
+                            <i class="fas fa-user"></i> עריכת משתמש
+                          </a>
+                          {% endif %}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                {% endif %}
               {% endfor %} 
           </div>
         </div>

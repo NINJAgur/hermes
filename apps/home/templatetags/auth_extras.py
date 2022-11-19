@@ -23,6 +23,10 @@ def get_alerts(user):
 def get_messages(user):
     return latestMessages
 
+@register.filter(name='get_messages_list')
+def get_messages_list(user):
+    return Room.objects.filter(updated=datetime.date.today())
+
 @register.filter(name='get_users')
 def get_users(user):
     return latestUserSignUp
@@ -30,3 +34,7 @@ def get_users(user):
 @register.filter(name='get_notifications')
 def get_notifications(user):
     return latestUserSignUp + lastestAlerts
+
+@register.filter(name='get_private_room')
+def get_private_room(user, member):
+    return user.username +"ROOM"+ member
