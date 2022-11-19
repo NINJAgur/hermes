@@ -128,32 +128,33 @@
             </ul>
           </li>
 
-          {% if request.user|has_group:"superuser" %} 
-            <li class="nav-item has-treeview {% if 'users' in segment %} menu-open {% endif %}">
-              <a href="/" class="nav-link {% if 'users' in segment %} active {% endif %}">
-                <p>
-                  משתמשים 
-                  <i class="fas fa-angle-left right"></i>
-                </p>
-                <i class="fas fa-user nav-icon"></i>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="/users-contacts" class="nav-link {% if 'contacts' in segment %} active {% endif %}">
-                    <p>אנשי קשר</p>
-                    <i class="fas fa-users nav-icon"></i>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="/users-list" class="nav-link {% if 'user-list' in segment %} active {% endif %}">
-                    <p>ניהול הרשאות</p>
-                    <i class="fas fa-user-plus nav-icon"></i>
-                  </a>
-                </li>
-              </ul>
-            </li>
+          <li class="nav-item has-treeview {% if 'users' in segment %} menu-open {% endif %}">
+            <a href="/" class="nav-link {% if 'users' in segment %} active {% endif %}">
+              <p>
+                משתמשים 
+                <i class="fas fa-angle-left right"></i>
+              </p>
+              <i class="fas fa-user nav-icon"></i>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/users-contacts" class="nav-link {% if 'contacts' in segment %} active {% endif %}">
+                  <p>אנשי קשר</p>
+                  <i class="fas fa-users nav-icon"></i>
+                </a>
+              </li>
+              {% if request.user|has_group:"superuser" %} 
+              <li class="nav-item">
+                <a href="/users-list" class="nav-link {% if 'user-list' in segment %} active {% endif %}">
+                  <p>ניהול הרשאות</p>
+                  <i class="fas fa-user-plus nav-icon"></i>
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+          </li>
 
-          {% endif %}
+          
 
           <li class="nav-item">
             <a href="/chat/" class="nav-link {% if 'chat' in segment %} active {% endif %}">

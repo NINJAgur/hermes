@@ -8,4 +8,7 @@ urlpatterns = [
     path("chat/", include("apps.chat.urls"))
 ]
 
+handler400="apps.helpers.views.error400"
+handler403="apps.helpers.views.error403"
 handler404="apps.helpers.views.error404"
+handler500="apps.helpers.views.error500"

@@ -16,7 +16,7 @@
         </a>
         {% if request.user|get_messages > 0 %}
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            {% for m in latestMessages %}
+            {% for m in request.user|get_messages_list %}
               <a class="dropdown-item">
                 <!-- Message Start -->
                 <div class="media">
