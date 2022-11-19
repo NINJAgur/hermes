@@ -109,7 +109,7 @@
                                         <span class="contacts-list-name">
                                             <span class="contacts-list-msg">{{room.lastMessage}}</span>
                                             &nbsp;
-                                            {{room.slug}}
+                                            <h6 style="width:100%;max-width:50px;display: initial;">{{room.name}}</h6>
                                             &nbsp;
                                             <small class="contacts-list-date">{{room.updated}}</small>
                                         </span>
@@ -140,6 +140,17 @@
   <!-- /.content-wrapper -->
 {% endblock %}
 {% block javascripts %}
+
+<!-- REQUIRED SCRIPTS -->
+  <!-- jQuery -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="{{ ASSETS_ROOT }}/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Bootstrap -->
+  <script src="{{ ASSETS_ROOT }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- overlayScrollbars -->
+  <script src="{{ ASSETS_ROOT }}/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
 {{ room.slug|json_script:"json-roomname" }}
 {{ request.user.username|json_script:"json-username" }}
 

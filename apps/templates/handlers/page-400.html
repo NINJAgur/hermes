@@ -1,9 +1,9 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Error 500 {% endblock %} 
+{% block title %} שגיאה 400 {% endblock %} 
 
 <!-- Element injected in the BODY element -->
-{% block body_class %} sidebar-mini {% endblock body_class %}
+{% block body_class %} sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed {% endblock body_class %}
 
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
@@ -19,52 +19,46 @@
 
 {% block content %}
 
+  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <div class="content-header" style="direction:rtl">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>500 Error Page</h1>
+          <div class="col-sm-3">
+            <h1 class="m-0 text-dark">שגיאה 400</h1>
           </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">בית</a></li>
-              <li class="breadcrumb-item active">500 Error Page</li>
+          <div class="col-sm-4">
+            <ol class="breadcrumb float-sm-left">
+              <li class="breadcrumb-item"><a href="/">בית</a></li>
+              <li class="breadcrumb-item active">שגיאה 400</li>
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
-    </section>
+      </div>
+    </div>
 
     <!-- Main content -->
     <section class="content">
       <div class="error-page">
-        <h2 class="headline text-danger">500</h2>
+        <h2 class="headline text-warning">400</h2>
 
         <div class="error-content">
-          <h3><i class="fas fa-exclamation-triangle text-danger"></i> Oops! Something went wrong.</h3>
+          <h3><i class="fas fa-file-excel text-warning"></i> !שגיאת לקוח</h3>
 
           <p>
-            We will work on fixing that right away.
-            Meanwhile, you may <a href="../../index.html">return to dashboard</a> or try using the search form.
+            .הבקשה שניסית לבצע לשרת לא התבצעה
+            <br>
+            .יש לטעון מחדש את העמוד ולנסות לבצע את הבקשה בשנית
           </p>
 
-          <form class="search-form">
-            <div class="input-group">
-              <input type="text" name="search" class="form-control" placeholder="Search">
-
-              <div class="input-group-append">
-                <button type="submit" name="submit" class="btn btn-danger"><i class="fas fa-search"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.input-group -->
-          </form>
+          <p>
+            קישור חזרה לעמוד הראשי <a href="/">דשבורד</a>
+          </p>
         </div>
+        <!-- /.error-content -->
       </div>
       <!-- /.error-page -->
-
     </section>
     <!-- /.content -->
   </div>
