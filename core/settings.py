@@ -2,7 +2,8 @@ import os, environ
 
 env = environ.Env(
     # set casting, default value
-    DEBUG=(bool, True)
+    DEBUG=(bool, True),
+    DB_ENGINE=(str, "postgres")
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -88,15 +89,15 @@ CHANNEL_LAYERS = {
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
+if env('DB_ENGINE') and env('DB_ENGINE') == "postgres":
     DATABASES = { 
       'default': {
-        'ENGINE'  : 'django.db.backends.mysql', 
-        'NAME'    : os.getenv('DB_NAME'     , 'Huston Team_db'),
-        'USER'    : os.getenv('DB_USERNAME' , 'Huston Team_db_usr'),
-        'PASSWORD': os.getenv('DB_PASS'     , 'pass'),
-        'HOST'    : os.getenv('DB_HOST'     , 'localhost'),
-        'PORT'    : os.getenv('DB_PORT'     , 3306),
+        'ENGINE'  : 'django.db.backends.postgresql', 
+        'NAME'    : 'postgres',
+        'USER'    : 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST'    : 'pgdb',
+        'PORT'    : 5432,
         }, 
     }
 else:

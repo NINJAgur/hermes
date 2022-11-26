@@ -12,6 +12,11 @@ from . import forms
 from apps.chat.models import Room , Message
 from apps.authentication.models import UserHermes
 
+def getLatestChat():
+    try:
+        return Message.objects.filter(room=Room.objects.latest('updated'))[0:25]
+    except Room.DoesNotExist:
+        return []
 
 @login_required(login_url="/login/")
 def index(request):
@@ -20,7 +25,7 @@ def index(request):
         'lastestRecords'  : Record.objects.all().order_by('-id')[:6],
         'lastestUsers'   : User.objects.all().order_by('-id')[:8],
         'rooms' : Room.objects.all(),
-        'messages' : Message.objects.filter(room=Room.objects.latest('updated'))[0:25],
+        'messages' : getLatestChat(),
     }
 
     return render(request,'home/main.html', dict)

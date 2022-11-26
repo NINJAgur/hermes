@@ -15,7 +15,7 @@ def login_view(request):
     if request.method == "POST":
         if request.POST.get("login"):
             user_name = request.POST.get("username")
-            current_user = os.getlogin()
+            # current_user = os.getlogin()
             
             user = authenticate(username=user_name, password="@hermes510" if user_name != 'admin' else 'admin')
 
