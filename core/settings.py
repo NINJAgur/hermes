@@ -3,7 +3,7 @@ import os, environ
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, True),
-    DB_ENGINE=(str, "postgres")
+    DB_ENGINE=(str, "default")
 )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
